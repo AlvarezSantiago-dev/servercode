@@ -10,7 +10,7 @@ class ProductManager {
             stock: data.stock
         }
         ProductManager.#productos.push(producto);
-        console.log("Usuario creado con exito! 😊");
+        console.log("Producto creado con exito! 😊");
         
     }
     read(){
