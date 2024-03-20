@@ -1,0 +1,26 @@
+[
+  {
+    "id": "c2f463fce65d7c36b9e0b0e7",
+    "name": "Lucas",
+    "photo": "url.jpg",
+    "email": "lucas@gmail.com",
+    "password": "pasword1",
+    "role": "usuario"
+  },
+  {
+    "id": "d82dba090bf4e20db19f9f7e",
+    "name": "Lucas",
+    "photo": "url.jpg",
+    "email": "lucas@gmail.com",
+    "password": "pasword1",
+    "role": "usuario"
+  },
+  {
+    "id": "048fa5cfba34ab725b5504d5",
+    "name": "Lucas",
+    "photo": "url.jpg",
+    "email": "lucas@gmail.com",
+    "password": "pasword1",
+    "role": "usuario"
+  }
+]
