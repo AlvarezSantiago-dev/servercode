@@ -1,0 +1,18 @@
+[
+  {
+    "id": "e2b00105d6925df5492e78d1",
+    "tittle": "Remera overzize",
+    "photo": "url.jpg",
+    "category": "nike",
+    "price": 14.4,
+    "stock": 1
+  },
+  {
+    "id": "c58249372e1dbd5164e8159d",
+    "tittle": "Remera overzize",
+    "photo": "url.jpg",
+    "category": "nike",
+    "price": 14.4,
+    "stock": 1
+  }
+]
