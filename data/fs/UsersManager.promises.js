@@ -1,10 +1,10 @@
-const fs = require(`fs`);
-const crypto = require(`crypto`);
+import fs from "fs"
+import crypto from "crypto"
 
 class UserManager {
     constructor() {
         //definimos la ruta
-        this.path = "./files/users.json"
+        this.path = "./data/fs/files/users.json"
         this.init()
     }
     init() {
@@ -117,6 +117,9 @@ class UserManager {
     }
 }
 
+const userManager = new UserManager();
+export default userManager;
+/*
 // DURANTE LA CLASE VIMOS UN ERROR. 
 //El mismo pasaba porque si no utilizamos el metodo async / await se perdia el orden. de las funciones. 
 async function test() {
@@ -153,3 +156,4 @@ async function test() {
 }
 test();
 
+*/

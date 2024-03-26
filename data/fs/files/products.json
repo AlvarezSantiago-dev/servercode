@@ -1,17 +1,81 @@
 [
   {
     "id": "e2b00105d6925df5492e78d1",
-    "tittle": "Remera overzize",
+    "tittle": "Remera nike",
     "photo": "url.jpg",
-    "category": "nike",
+    "category": "indumentaria",
+    "price": 14.4,
+    "stock": 1
+  },
+  {
+    "id": "e2b00105d6925df5492e70d1",
+    "tittle": "Remera adidas ",
+    "photo": "url.jpg",
+    "category": "adidas",
+    "price": 14.4,
+    "stock": 1
+  },
+  {
+    "id": "e3b00105d6925df5492e78d1",
+    "tittle": "zapatillas adidas",
+    "photo": "url.jpg",
+    "category": "zapatillas",
+    "price": 14.4,
+    "stock": 1
+  },
+  {
+    "id": "e8b00105d69f5df5492e78d1",
+    "tittle": "zapatillas nike",
+    "photo": "url.jpg",
+    "category": "zapatillas",
+    "price": 14.4,
+    "stock": 1
+  },
+  {
+    "id": "e2b00105d6925hf5492y78d1",
+    "tittle": "buzo adidas",
+    "photo": "url.jpg",
+    "category": "indumentaria",
+    "price": 14.4,
+    "stock": 1
+  },
+  {
+    "id": "e2b00105d7825df5492e78d1",
+    "tittle": "buzo nike",
+    "photo": "url.jpg",
+    "category": "indumentaria",
+    "price": 14.4,
+    "stock": 1
+  },
+  {
+    "id": "e2b00119d6925df5492e78d1",
+    "tittle": "zapatillas fila",
+    "photo": "url.jpg",
+    "category": "zapatillas",
+    "price": 14.4,
+    "stock": 1
+  },
+  {
+    "id": "e2b00105d2925tf5492e78d1",
+    "tittle": "zapatillas supreme",
+    "photo": "url.jpg",
+    "category": "zapatillas",
+    "price": 14.4,
+    "stock": 1
+  },
+  {
+    "id": "e2b00105d6925rl5492e78d1",
+    "tittle": "pantalon adidas",
+    "photo": "url.jpg",
+    "category": "indumentaria",
     "price": 14.4,
     "stock": 1
   },
   {
     "id": "c58249372e1dbd5164e8159d",
-    "tittle": "Remera overzize",
+    "tittle": "zapatillas puma",
     "photo": "url.jpg",
-    "category": "nike",
+    "category": "zapatillas",
     "price": 14.4,
     "stock": 1
   }
