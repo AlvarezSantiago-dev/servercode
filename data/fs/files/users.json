@@ -30,53 +30,5 @@
     "email": "tomas@gmail.com",
     "password": "pasword1",
     "role": "usuario"
-  },
-  {
-    "id": "d88dba090bf4e20db19f9f7e",
-    "name": "Sarah",
-    "photo": "url.jpg",
-    "email": "sarah@gmail.com",
-    "password": "pasword1",
-    "role": "admin"
-  },
-  {
-    "id": "d80dba090bf4e20db19f9f7e",
-    "name": "Ramiro",
-    "photo": "url.jpg",
-    "email": "ramiro@gmail.com",
-    "password": "pasword1",
-    "role": "usuario"
-  },
-  {
-    "id": "d80dba091bf4e20db19f9f7e",
-    "name": "Jazmin",
-    "photo": "url.jpg",
-    "email": "jazmin@gmail.com",
-    "password": "pasword1",
-    "role": "usuario"
-  },
-  {
-    "id": "d80dba092bf4e20db19f9f7e",
-    "name": "Luis",
-    "photo": "url.jpg",
-    "email": "luis@gmail.com",
-    "password": "pasword1",
-    "role": "admin"
-  },
-  {
-    "id": "d80dba093bf4e20db19f9f7e",
-    "name": "Tamara",
-    "photo": "url.jpg",
-    "email": "tamara@gmail.com",
-    "password": "pasword1",
-    "role": "admin"
-  },
-  {
-    "id": "048fa5cfba34ab725b5504d5",
-    "name": "Matias",
-    "photo": "url.jpg",
-    "email": "matias@gmail.com",
-    "password": "pasword1",
-    "role": "usuario"
   }
 ]

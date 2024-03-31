@@ -51,14 +51,16 @@ class UserManager {
     }
 
     // read  devuelve todos los registros
-    async read() {
+    async read(role = "usuario") {
         try {
             let all = await fs.promises.readFile(this.path, "utf-8");
             // leemos todo  el archivo y pasamos a formato json
             all = JSON.parse(all);
+            all = all.filter(e => e.role === role)
             //  parseamos
             if (all.length === 0) {
-                throw new Error("no hay usuarios");
+                //throw new Error("no hay usuarios");
+                return null // PARA QUE NO RETORNE UN ARRAY VACIO. sino se cumpla else.
                 // si no hay productos
             } else {
                 console.log(all);

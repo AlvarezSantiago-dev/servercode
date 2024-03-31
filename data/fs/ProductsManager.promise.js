@@ -52,15 +52,18 @@ class ProductManager {
     }
 
     // read  devuelve todos los registros
-    async read() {
+    async read(categoty = "zapatillas") {
         try {
             let allproducts = await fs.promises.readFile(this.path, "utf-8");
             // leemos todo  el archivo y pasamos a formato json
             allproducts = JSON.parse(allproducts);
             //  parseamos
+            allproducts = allproducts.filter(e => e.category ===categoty);
+            //creamos un filtro de categoria.
             if (allproducts.length === 0) {
-                throw new Error("no hay productos");
+                //throw new Error("no hay productos");
                 // si no hay notas largamos este error.
+                return null;
             } else {
                 console.log(allproducts);
                 return allproducts;
