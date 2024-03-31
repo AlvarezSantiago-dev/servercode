@@ -1,25 +1,33 @@
 [
   {
     "id": "c2f463fce65d7c36b9e0b0e7",
-    "name": "Lucas",
+    "name": "Julieta",
     "photo": "url.jpg",
-    "email": "lucas@gmail.com",
+    "email": "julieta@gmail.com",
+    "password": "pasword1",
+    "role": "admin"
+  },
+  {
+    "id": "d82dba092bf4420db19f9f7e",
+    "name": "Santiago",
+    "photo": "url.jpg",
+    "email": "santiago@gmail.com",
+    "password": "pasword1",
+    "role": "admin"
+  },
+  {
+    "id": "d81dba090bf4e20db19f9f7e",
+    "name": "Lucia",
+    "photo": "url.jpg",
+    "email": "lucia@gmail.com",
     "password": "pasword1",
     "role": "usuario"
   },
   {
-    "id": "d82dba090bf4e20db19f9f7e",
-    "name": "Lucas",
+    "id": "d87dba090bf4e20db19f9f7e",
+    "name": "Tomas",
     "photo": "url.jpg",
-    "email": "lucas@gmail.com",
-    "password": "pasword1",
-    "role": "usuario"
-  },
-  {
-    "id": "048fa5cfba34ab725b5504d5",
-    "name": "Lucas",
-    "photo": "url.jpg",
-    "email": "lucas@gmail.com",
+    "email": "tomas@gmail.com",
     "password": "pasword1",
     "role": "usuario"
   }

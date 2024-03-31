@@ -1,10 +1,10 @@
-const fs = require(`fs`);
-const crypto = require(`crypto`);
+import fs from "fs"
+import crypto from "crypto"
 
 class UserManager {
     constructor() {
         //definimos la ruta
-        this.path = "./files/users.json"
+        this.path = "./data/fs/files/users.json"
         this.init()
     }
     init() {
@@ -51,14 +51,16 @@ class UserManager {
     }
 
     // read  devuelve todos los registros
-    async read() {
+    async read(role = "usuario") {
         try {
             let all = await fs.promises.readFile(this.path, "utf-8");
             // leemos todo  el archivo y pasamos a formato json
             all = JSON.parse(all);
+            all = all.filter(e => e.role === role)
             //  parseamos
             if (all.length === 0) {
-                throw new Error("no hay usuarios");
+                //throw new Error("no hay usuarios");
+                return null // PARA QUE NO RETORNE UN ARRAY VACIO. sino se cumpla else.
                 // si no hay productos
             } else {
                 console.log(all);
@@ -117,6 +119,9 @@ class UserManager {
     }
 }
 
+const userManager = new UserManager();
+export default userManager;
+/*
 // DURANTE LA CLASE VIMOS UN ERROR. 
 //El mismo pasaba porque si no utilizamos el metodo async / await se perdia el orden. de las funciones. 
 async function test() {
@@ -153,3 +158,4 @@ async function test() {
 }
 test();
 
+*/

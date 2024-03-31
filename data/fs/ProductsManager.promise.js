@@ -1,10 +1,10 @@
-const fs = require(`fs`);
-const crypto = require(`crypto`);
+import fs  from "fs"
+import crypto  from "crypto"
 
 class ProductManager {
     constructor() {
         //definimos la ruta
-        this.path = "./files/products.json"
+        this.path = "./data/fs/files/products.json"
         this.init() //inicializamos/ ejecutamos
     }
     // con la clase inicializamos la funcion init 
@@ -52,15 +52,18 @@ class ProductManager {
     }
 
     // read  devuelve todos los registros
-    async read() {
+    async read(categoty = "zapatillas") {
         try {
             let allproducts = await fs.promises.readFile(this.path, "utf-8");
             // leemos todo  el archivo y pasamos a formato json
             allproducts = JSON.parse(allproducts);
             //  parseamos
+            allproducts = allproducts.filter(e => e.category ===categoty);
+            //creamos un filtro de categoria.
             if (allproducts.length === 0) {
-                throw new Error("no hay productos");
+                //throw new Error("no hay productos");
                 // si no hay notas largamos este error.
+                return null;
             } else {
                 console.log(allproducts);
                 return allproducts;
@@ -117,41 +120,9 @@ class ProductManager {
         }
     }
 }
+const productManager = new ProductManager()
+export default productManager;
 
 // DURANTE LA CLASE VIMOS UN ERROR. 
 //El mismo pasaba porque si no utilizamos el metodo async / await se perdia el orden. de las funciones. 
-async function test() {
-    try {
-        const productos = new ProductManager();
-
-        const producto1 =  await productos.create({ tittle:"Remera overzize",category: "nike", price: 14.400, stock: 1 });
-        const producto2 =  await productos.create({ tittle:"Jogger",category: "adidas", price: 23.300, stock: 2 });
-
-        const idProduct1 = producto1.id;
-        const idProduct2 = producto2.id;
-
-        console.log("Paso1: Mostramos todos los usuarios creados: ");
-        // Llamamos a todos
-        await productos.read();
-        console.log( "Paso2: Llamamos en particular al usuario:");
-        // Llamamos solo a uno.
-        await productos.readOne(idProduct1);
-        // Destuimos por id
-        console.log("Paso3: Eliminamos un producto en particular.");
-        await productos.destroy(idProduct2);
-        console.log("Paso4: Registramos un nuevo producto.");
-
-        //creamos un ultimo y leemos su id para eliminarlo. pero no funciono. :c
-        const ultimoproducto = await productos.create({ tittle:"Gorra",category: "supreme", price: 10.700, stock: 3 });
-        console.log("Paso5: Llamamos a el ultimo producto creado recientemente.");
-        await productos.readOne(ultimoproducto.id);
-        console.log("Paso6: Destruimos el ultimo producto creado recientemente.");
-        await productos.destroy(ultimoproducto.id);
-        
-    } catch (error) {
-        console.log(error);
-    }
-}
-test();
-// Creamos un último producto y almacenamos su id
 
