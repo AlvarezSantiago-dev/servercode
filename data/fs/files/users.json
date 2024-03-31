@@ -1,0 +1,34 @@
+[
+  {
+    "id": "c2f463fce65d7c36b9e0b0e7",
+    "name": "Julieta",
+    "photo": "url.jpg",
+    "email": "julieta@gmail.com",
+    "password": "pasword1",
+    "role": "admin"
+  },
+  {
+    "id": "d82dba092bf4420db19f9f7e",
+    "name": "Santiago",
+    "photo": "url.jpg",
+    "email": "santiago@gmail.com",
+    "password": "pasword1",
+    "role": "admin"
+  },
+  {
+    "id": "d81dba090bf4e20db19f9f7e",
+    "name": "Lucia",
+    "photo": "url.jpg",
+    "email": "lucia@gmail.com",
+    "password": "pasword1",
+    "role": "usuario"
+  },
+  {
+    "id": "d87dba090bf4e20db19f9f7e",
+    "name": "Tomas",
+    "photo": "url.jpg",
+    "email": "tomas@gmail.com",
+    "password": "pasword1",
+    "role": "usuario"
+  }
+]
