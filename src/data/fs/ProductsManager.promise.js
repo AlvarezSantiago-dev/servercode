@@ -1,10 +1,10 @@
-import fs  from "fs"
-import crypto  from "crypto"
+import fs from "fs"
+import crypto from "crypto"
 
 class ProductManager {
     constructor() {
         //definimos la ruta
-        this.path = "./data/fs/files/products.json"
+        this.path = "./src/data/fs/files/products.json"
         this.init() //inicializamos/ ejecutamos
     }
     // con la clase inicializamos la funcion init 
@@ -43,7 +43,7 @@ class ProductManager {
                 await fs.promises.writeFile(this.path, JSON.stringify(productos, null, 2));
                 // usamos  writefileSync porque queremos que guarde inmediatamente y stringify para convertir a json
                 console.log('Producto creado con éxito');
-                return  newproduct;
+                return newproduct;
             }
 
         } catch (error) {
@@ -58,7 +58,7 @@ class ProductManager {
             // leemos todo  el archivo y pasamos a formato json
             allproducts = JSON.parse(allproducts);
             //  parseamos
-            allproducts = allproducts.filter(e => e.category ===categoty);
+            allproducts = allproducts.filter(e => e.category === categoty);
             //creamos un filtro de categoria.
             if (allproducts.length === 0) {
                 //throw new Error("no hay productos");
@@ -92,7 +92,28 @@ class ProductManager {
             console.log(error);
         }
     }
-
+    async update(id, data) {
+        try {
+            let all = await this.read(); // Asumiendo que tienes una función read() que carga y devuelve todos los productos.
+            let one = all.find((each) => each.id === id);
+            if (one) {
+                for (let prop in data) {
+                    if (data.hasOwnProperty(prop)) {
+                        one[prop] = data[prop];
+                    }
+                }
+                const updatedData = JSON.stringify(all, null, 2);
+                await fs.promises.writeFile(this.path, updatedData);
+                return one;
+            } else {
+                const error = new Error("Not Found")
+                error.statusCode = 404;
+                throw error;
+            }
+        } catch (error) {
+            throw error;
+        }
+    }
     //function destroy 
     async destroy(id) {
         try {
@@ -116,13 +137,13 @@ class ProductManager {
                 return product;
             }
         } catch (error) {
-            console.log(error);
+            throw error
         }
     }
 }
 const productManager = new ProductManager()
 export default productManager;
 
-// DURANTE LA CLASE VIMOS UN ERROR. 
+// DURANTE LA CLASE VIMOS UN ERROR.
 //El mismo pasaba porque si no utilizamos el metodo async / await se perdia el orden. de las funciones. 
 
