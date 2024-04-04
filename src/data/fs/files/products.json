@@ -1,0 +1,322 @@
+[
+  {
+    "id": "e3b00105d6925df5492e78d1",
+    "tittle": "Modif Postman zapatillas adidas",
+    "photo": "url.jpg",
+    "category": "zapatillas",
+    "price": 14.4,
+    "stock": 1
+  },
+  {
+    "id": "e2b00119d6925df5492e78d1",
+    "tittle": "zapatillas fila",
+    "photo": "url.jpg",
+    "category": "zapatillas",
+    "price": 14.4,
+    "stock": 1
+  },
+  {
+    "id": "e2b00105d2925tf5492e78d1",
+    "tittle": "zapatillas supreme",
+    "photo": "url.jpg",
+    "category": "zapatillas",
+    "price": 14.4,
+    "stock": 1
+  },
+  {
+    "id": "c58249372e1dbd5164e8159d",
+    "tittle": "zapatillas puma",
+    "photo": "url.jpg",
+    "category": "zapatillas",
+    "price": 14.4,
+    "stock": 1
+  },
+  {
+    "id": "c58249372t1dbd5164e8159d",
+    "tittle": "text modif postman zapatillas dc",
+    "photo": "url.jpg",
+    "category": "zapatillas",
+    "price": 14.4,
+    "stock": 1
+  },
+  {
+    "id": "e2b00105d6925rl7432e78d1",
+    "tittle": "zapatillas 47Street",
+    "photo": "url.jpg",
+    "category": "zapatillas",
+    "price": 14.4,
+    "stock": 1
+  },
+  {
+    "id": "e2b10105d6065rl5492e78d1",
+    "tittle": "zapatillas vans",
+    "photo": "url.jpg",
+    "category": "zapatillas",
+    "price": 14.4,
+    "stock": 1
+  },
+  {
+    "id": "e2b05105f6725rl5492e78d1",
+    "tittle": "zapatillas new balance",
+    "photo": "url.jpg",
+    "category": "zapatillas",
+    "price": 14.4,
+    "stock": 1
+  },
+  {
+    "id": "g2b10405d6925yl5492e78d1",
+    "tittle": "zapatillas jordan",
+    "photo": "url.jpg",
+    "category": "zapatillas",
+    "price": 14.4,
+    "stock": 1
+  },
+  {
+    "id": "8b455cc36f2e3b56b083f1ff",
+    "tittle": "Zapatillas nike",
+    "photo": "url.jpg",
+    "category": "zapatillas",
+    "price": 900,
+    "stock": 2
+  },
+  {
+    "id": "af769516021b26c633aa1cfc",
+    "tittle": "Camiseta nike",
+    "photo": "url.jpg",
+    "category": "indumentaria",
+    "price": 900,
+    "stock": 2
+  },
+  {
+    "id": "44293b04a07e127b1457cd23",
+    "tittle": "Camiseta adidas",
+    "photo": "url.jpg",
+    "category": "indumentaria",
+    "price": 900,
+    "stock": 2
+  },
+  {
+    "id": "346f097c9218d70c3c9531aa",
+    "tittle": "Camiseta puma",
+    "photo": "url.jpg",
+    "category": "indumentaria",
+    "price": 900,
+    "stock": 2
+  },
+  {
+    "id": "31cd85b1946d400bfbf8a33b",
+    "tittle": "Camiseta gucci",
+    "photo": "url.jpg",
+    "category": "indumentaria",
+    "price": 900,
+    "stock": 2
+  },
+  {
+    "id": "4e6d67bd5410ff8232476c7f",
+    "tittle": "Camiseta fila",
+    "photo": "url.jpg",
+    "category": "indumentaria",
+    "price": 900,
+    "stock": 2
+  },
+  {
+    "id": "42f17a7b8016dc59f96a7514",
+    "tittle": "Camiseta hltv",
+    "photo": "url.jpg",
+    "category": "indumentaria",
+    "price": 900,
+    "stock": 2
+  },
+  {
+    "id": "3a269b5d46a6fa127903da47",
+    "tittle": "Camiseta amazone",
+    "photo": "url.jpg",
+    "category": "indumentaria",
+    "price": 900,
+    "stock": 2
+  },
+  {
+    "id": "e1be46c3251166acac2f90e6",
+    "tittle": "Camiseta fox",
+    "photo": "url.jpg",
+    "category": "indumentaria",
+    "price": 900,
+    "stock": 2
+  },
+  {
+    "id": "43a6a6f3fd3f077cfe3c7638",
+    "tittle": "buzo nike",
+    "photo": "url.jpg",
+    "category": "indumentaria",
+    "price": 900,
+    "stock": 2
+  },
+  {
+    "id": "170358e5a1f0098b551b1103",
+    "tittle": "buzo adidas",
+    "photo": "url.jpg",
+    "category": "indumentaria",
+    "price": 900,
+    "stock": 2
+  },
+  {
+    "id": "389890159d9c3ceec7c0dc3a",
+    "tittle": "gorra adidas",
+    "photo": "url.jpg",
+    "category": "accesorios",
+    "price": 900,
+    "stock": 2
+  },
+  {
+    "id": "d795c4ea9f51e494eaba6920",
+    "tittle": "gorra nike",
+    "photo": "url.jpg",
+    "category": "accesorios",
+    "price": 900,
+    "stock": 2
+  },
+  {
+    "id": "3cb36126a47623c632cae03c",
+    "tittle": "gorra hltv",
+    "photo": "url.jpg",
+    "category": "accesorios",
+    "price": 900,
+    "stock": 2
+  },
+  {
+    "id": "fdf89587b84a6d5753f5acec",
+    "tittle": "gorra puma",
+    "photo": "url.jpg",
+    "category": "accesorios",
+    "price": 900,
+    "stock": 2
+  },
+  {
+    "id": "e0b20cb0ac7ee54eb3ca4e7e",
+    "tittle": "gorra gucci",
+    "photo": "url.jpg",
+    "category": "accesorios",
+    "price": 900,
+    "stock": 2
+  },
+  {
+    "id": "e2ca96c20cf10d682aec662b",
+    "tittle": "gorra versace",
+    "photo": "url.jpg",
+    "category": "accesorios",
+    "price": 900,
+    "stock": 2
+  },
+  {
+    "id": "df54a7923ebea94831ac42b1",
+    "tittle": "gorra dc",
+    "photo": "url.jpg",
+    "category": "accesorios",
+    "price": 900,
+    "stock": 2
+  },
+  {
+    "id": "2f7995ad33591d49c8b19ba7",
+    "tittle": "gorra 47Street",
+    "photo": "url.jpg",
+    "category": "accesorios",
+    "price": 900,
+    "stock": 2
+  },
+  {
+    "id": "904d46fc8a513a3d9e1c2975",
+    "tittle": "gorra fila",
+    "photo": "url.jpg",
+    "category": "accesorios",
+    "price": 900,
+    "stock": 2
+  },
+  {
+    "id": "dc837df7f4591fa4466b0293",
+    "tittle": "gorra new balance",
+    "photo": "url.jpg",
+    "category": "accesorios",
+    "price": 900,
+    "stock": 2
+  },
+  {
+    "id": "2ef280163211b28f5c74bce8",
+    "tittle": "Iphone 4",
+    "photo": "url.jpg",
+    "category": "celulares",
+    "price": 900,
+    "stock": 2
+  },
+  {
+    "id": "2feab1ce878c2c424f02e2b0",
+    "tittle": "Iphone 5",
+    "photo": "url.jpg",
+    "category": "celulares",
+    "price": 900,
+    "stock": 2
+  },
+  {
+    "id": "11694f2dad3ca44b8fff448a",
+    "tittle": "Iphone 6",
+    "photo": "url.jpg",
+    "category": "celulares",
+    "price": 900,
+    "stock": 2
+  },
+  {
+    "id": "fc3d2f5b15457dd3d9fa437e",
+    "tittle": "Iphone 7",
+    "photo": "url.jpg",
+    "category": "celulares",
+    "price": 900,
+    "stock": 2
+  },
+  {
+    "id": "c081516f2768d9a04c6bd33f",
+    "tittle": "Iphone 8",
+    "photo": "url.jpg",
+    "category": "celulares",
+    "price": 900,
+    "stock": 2
+  },
+  {
+    "id": "b5b8991d922d793b9dc91f47",
+    "tittle": "Iphone 11",
+    "photo": "url.jpg",
+    "category": "celulares",
+    "price": 900,
+    "stock": 2
+  },
+  {
+    "id": "bd8c92db3ef064b43e932e8d",
+    "tittle": "Iphone 12",
+    "photo": "url.jpg",
+    "category": "celulares",
+    "price": 900,
+    "stock": 2
+  },
+  {
+    "id": "b4abb9bfe762114e2f3ad40e",
+    "tittle": "Iphone 13",
+    "photo": "url.jpg",
+    "category": "celulares",
+    "price": 900,
+    "stock": 2
+  },
+  {
+    "id": "0936ed474dd7cce9a4ff744c",
+    "tittle": "Iphone 14",
+    "photo": "url.jpg",
+    "category": "celulares",
+    "price": 900,
+    "stock": 2
+  },
+  {
+    "id": "76e81d90d405564ad5317bd2",
+    "tittle": "Iphone 15",
+    "photo": "url.jpg",
+    "category": "celulares",
+    "price": 900,
+    "stock": 2
+  }
+]

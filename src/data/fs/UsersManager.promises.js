@@ -4,7 +4,7 @@ import crypto from "crypto"
 class UserManager {
     constructor() {
         //definimos la ruta
-        this.path = "./data/fs/files/users.json"
+        this.path = "./src/data/fs/files/users.json"
         this.init()
     }
     init() {
@@ -61,7 +61,7 @@ class UserManager {
             if (all.length === 0) {
                 //throw new Error("no hay usuarios");
                 return null // PARA QUE NO RETORNE UN ARRAY VACIO. sino se cumpla else.
-                // si no hay productos
+                // si no hay usuarios
             } else {
                 console.log(all);
                 return all;
@@ -90,7 +90,28 @@ class UserManager {
             console.log(error);
         }
     }
-
+    async update(id, data) {
+        try {
+            let all = await this.read(); // Asumiendo que tienes una función read() que carga y devuelve todos los productos.
+            let one = all.find((each) => each.id === id);
+            if (one) {
+                for (let prop in data) {
+                    if (data.hasOwnProperty(prop)) {
+                        one[prop] = data[prop];
+                    }
+                }
+                const updatedData = JSON.stringify(all, null, 2);
+                await fs.promises.writeFile(this.path, updatedData);
+                return one;
+            } else {
+                const error = new Error("Not Found")
+                error.statusCode = 404;
+                throw error;
+            }
+        } catch (error) {
+            throw error;
+        }
+    }
     //function destroy 
     async destroy(id) {
         try {
@@ -101,7 +122,7 @@ class UserManager {
             let user = usuarios.find((each) => each.id === id);
             //buscamos el usuario
             if (!user) {
-                throw new Error("Intentamos eliminar el usuario con el id solicitado pero no existe.");
+                throw new Error("No se encontro el usuario para ser eliminado");
                 // si no existe el usuario largamos error
             } else {
                 let filtrado = usuarios.filter((each) => each.id !== id);
@@ -114,7 +135,7 @@ class UserManager {
                 return user;
             }
         } catch (error) {
-            console.log(error);
+            throw error
         }
     }
 }
