@@ -26,35 +26,33 @@ productRouter.get("/:id", async (req, resp) => {
         })
     }
 });
-
 // filtrado por category products
 productRouter.get("/", async (req, resp) => {
     try {
-        const { category } = req.query
-        const allproducts = await productManager.read(category);
-        if (allproducts) {
+        const { category } = req.query; // Puede ser undefined si no se pasa
+        const allProducts = await productManager.read(category); // La lógica de 'todos' se maneja en `read`
+        if (allProducts) {
             return resp.status(200).json({
-                responese: allproducts,
-                category,
+                response: allProducts,
+                category: category || 'todos',
                 success: true
-            })
+            });
         } else {
             const error = new Error("NOT FOUND");
-            error.statusCode = 404
+            error.statusCode = 404;
             throw error;
         }
     } catch (error) {
         console.log(error);
         resp.status(404).json({
             response: null,
-            menssage: "No se encuentra la categoria"
-        })
+            message: "No se encuentra la categoría"
+        });
     }
-})
-productRouter.post("/", create); 
+});
+productRouter.post("/real", create); 
 productRouter.put("/:id", update);
 productRouter.delete("/:id", destroy);
-
 
 
 // crear producto

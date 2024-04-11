@@ -52,22 +52,24 @@ class ProductManager {
     }
 
     // read  devuelve todos los registros
-    async read(categoty = "zapatillas") {
+    async read(category) {
         try {
-            let allproducts = await fs.promises.readFile(this.path, "utf-8");
-            // leemos todo  el archivo y pasamos a formato json
-            allproducts = JSON.parse(allproducts);
-            //  parseamos
-            allproducts = allproducts.filter(e => e.category === categoty);
-            //creamos un filtro de categoria.
-            if (allproducts.length === 0) {
-                //throw new Error("no hay productos");
-                // si no hay notas largamos este error.
+            let allProducts = await fs.promises.readFile(this.path, "utf-8");
+            allProducts = JSON.parse(allProducts);
+            
+            // Asegúrate de que la categoría proporcionada sea válida
+            const validCategories = ['zapatillas', 'indumentaria', 'celulares', 'accesorios']; // Añade tus categorías aquí
+            
+            // Filtrar por categoría si se especifica una válida y no es 'todos'
+            if (category && validCategories.includes(category)) {
+                allProducts = allProducts.filter(product => product.category === category);
+            }
+            
+            if (allProducts.length === 0) {
                 return null;
             } else {
-                console.log(allproducts);
-                return allproducts;
-                // sino  retornamos las notas.
+                console.log(allProducts);
+                return allProducts;
             }
         } catch (error) {
             console.log(error);
@@ -82,7 +84,7 @@ class ProductManager {
             let product = productos.find((each) => each.id === id); // buscamos  por el ID que nos mandan.
             if (!product) {
 
-                throw new Error("Producto no encontrado.");
+                return null;
                 // si no encontramos el id largamos un error 
             } else {
                 console.log(product);
@@ -90,6 +92,7 @@ class ProductManager {
             }
         } catch (error) {
             console.log(error);
+            throw error;
         }
     }
     async update(id, data) {

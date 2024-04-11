@@ -2,7 +2,7 @@
   {
     "id": "d81dba090bf4e20db19f9f7e",
     "name": "Lucia",
-    "photo": "url.jpg",
+    "photo": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFosY_nBnFL5vwZkptcqkTSRTGEo4GO_cIBrDXBrFa3A&s",
     "email": "lucia@gmail.com",
     "password": "pasword1",
     "role": "usuario"
@@ -10,7 +10,7 @@
   {
     "id": "d87dba090bf4e20db19f9f7e",
     "name": "Tomas",
-    "photo": "url.jpg",
+    "photo": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFosY_nBnFL5vwZkptcqkTSRTGEo4GO_cIBrDXBrFa3A&s",
     "email": "tomas@gmail.com",
     "password": "pasword1",
     "role": "usuario"
@@ -18,7 +18,7 @@
   {
     "id": "45ce3fefe2500f63761a683e",
     "name": "Santiago",
-    "photo": "url.jpg",
+    "photo": "https://cdn.icon-icons.com/icons2/1508/PNG/512/systemusers_104569.png",
     "email": "santiago@gmail.com",
     "password": "pasword1",
     "role": "admin"
@@ -26,9 +26,17 @@
   {
     "id": "d3ba7a99687754428504584e",
     "name": "Julieta",
-    "photo": "url.jpg",
+    "photo": "https://cdn.icon-icons.com/icons2/1508/PNG/512/systemusers_104569.png",
     "email": "julieta@gmail.com",
     "password": "pasword1",
     "role": "admin"
+  },
+  {
+    "id": "86501df7af94cbc781cd45c4",
+    "name": "Prueba",
+    "photo": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFosY_nBnFL5vwZkptcqkTSRTGEo4GO_cIBrDXBrFa3A&s",
+    "email": "22@hotmail.com",
+    "password": "1234",
+    "role": "usuario"
   }
 ]

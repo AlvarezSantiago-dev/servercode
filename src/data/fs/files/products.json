@@ -2,71 +2,71 @@
   {
     "id": "e3b00105d6925df5492e78d1",
     "tittle": "Modif Postman zapatillas adidas",
-    "photo": "url.jpg",
+    "photo": "https://i.imgur.com/vSwt7oP.jpeg",
     "category": "zapatillas",
     "price": 14.4,
     "stock": 1
   },
   {
     "id": "e2b00119d6925df5492e78d1",
-    "tittle": "zapatillas fila",
-    "photo": "url.jpg",
+    "tittle": "Zapatillas fila",
+    "photo": "https://i.imgur.com/vSwt7oP.jpeg",
     "category": "zapatillas",
     "price": 14.4,
     "stock": 1
   },
   {
     "id": "e2b00105d2925tf5492e78d1",
-    "tittle": "zapatillas supreme",
-    "photo": "url.jpg",
+    "tittle": "Zapatillas supreme",
+    "photo": "https://i.imgur.com/vSwt7oP.jpeg",
     "category": "zapatillas",
     "price": 14.4,
     "stock": 1
   },
   {
     "id": "c58249372e1dbd5164e8159d",
-    "tittle": "zapatillas puma",
-    "photo": "url.jpg",
+    "tittle": "Zapatillas puma",
+    "photo": "https://i.imgur.com/vSwt7oP.jpeg",
     "category": "zapatillas",
     "price": 14.4,
     "stock": 1
   },
   {
     "id": "c58249372t1dbd5164e8159d",
-    "tittle": "text modif postman zapatillas dc",
-    "photo": "url.jpg",
+    "tittle": "Text modif post zapatillas dc",
+    "photo": "https://i.imgur.com/vSwt7oP.jpeg",
     "category": "zapatillas",
     "price": 14.4,
     "stock": 1
   },
   {
     "id": "e2b00105d6925rl7432e78d1",
-    "tittle": "zapatillas 47Street",
-    "photo": "url.jpg",
+    "tittle": "Zapatillas 47Street",
+    "photo": "https://i.imgur.com/vSwt7oP.jpeg",
     "category": "zapatillas",
     "price": 14.4,
     "stock": 1
   },
   {
     "id": "e2b10105d6065rl5492e78d1",
-    "tittle": "zapatillas vans",
-    "photo": "url.jpg",
+    "tittle": "Zapatillas vans",
+    "photo": "https://i.imgur.com/vSwt7oP.jpeg",
     "category": "zapatillas",
     "price": 14.4,
     "stock": 1
   },
   {
     "id": "e2b05105f6725rl5492e78d1",
-    "tittle": "zapatillas new balance",
-    "photo": "url.jpg",
+    "tittle": "Zapatillas new balance",
+    "photo": "https://i.imgur.com/vSwt7oP.jpeg",
     "category": "zapatillas",
     "price": 14.4,
     "stock": 1
   },
   {
     "id": "g2b10405d6925yl5492e78d1",
-    "tittle": "zapatillas jordan",
-    "photo": "url.jpg",
+    "tittle": "Zapatillas jordan",
+    "photo": "https://i.imgur.com/vSwt7oP.jpeg",
     "category": "zapatillas",
     "price": 14.4,
     "stock": 1
@@ -74,7 +74,7 @@
   {
     "id": "8b455cc36f2e3b56b083f1ff",
     "tittle": "Zapatillas nike",
-    "photo": "url.jpg",
+    "photo": "https://i.imgur.com/vSwt7oP.jpeg",
     "category": "zapatillas",
     "price": 900,
     "stock": 2
@@ -318,5 +318,21 @@
     "category": "celulares",
     "price": 900,
     "stock": 2
+  },
+  {
+    "id": "14f3440169bc627f7e18b8c3",
+    "tittle": "Nuevo",
+    "photo": "url.jpg",
+    "category": "nuevacateg",
+    "price": "12",
+    "stock": "1"
+  },
+  {
+    "id": "7b94eeed8c65e7da236e60e1",
+    "tittle": "Prueba 2",
+    "photo": "url.jpg",
+    "category": "nuevacateg",
+    "price": "22",
+    "stock": "1"
   }
 ]

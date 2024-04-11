@@ -23,7 +23,7 @@ class UserManager {
     async create(data) {
         // utilizamos metodo sync  para que se ejecute de manera sincronica 
         try {
-            if (!data.email || !data.password || !data.name || !data.role) {
+            if (!data.email || !data.password || !data.name ) {
                 throw new Error(`Todos los campos son obligatorios.`)
                 // si si faltan esos datos lanzamos un error.
             } else {
@@ -31,10 +31,10 @@ class UserManager {
                     // creamos el objeto con los valores.
                     id: crypto.randomBytes(12).toString(`hex`), // id  aleatorio en hexadecimal
                     name: data.name,
-                    photo: data.photo || "url.jpg", // foto o url.
+                    photo: data.photo || "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFosY_nBnFL5vwZkptcqkTSRTGEo4GO_cIBrDXBrFa3A&s", // foto o url.
                     email: data.email,
                     password: data.password,
-                    role: data.role,
+                    role: data.role || "usuario",
                 };
                 let users = await fs.promises.readFile(this.path, "utf-8"); // usamos metodo readFile para leer el archivo
                 users = JSON.parse(users); // lo parseamos para usar esos datos luego. 
@@ -51,12 +51,16 @@ class UserManager {
     }
 
     // read  devuelve todos los registros
-    async read(role = "usuario") {
+    async read(role) {
         try {
             let all = await fs.promises.readFile(this.path, "utf-8");
             // leemos todo  el archivo y pasamos a formato json
             all = JSON.parse(all);
-            all = all.filter(e => e.role === role)
+
+            const validRole =['admin', 'usuario'];
+            if(role && validRole.includes(role)){
+                all = all.filter(e => e.role === role)
+            }
             //  parseamos
             if (all.length === 0) {
                 //throw new Error("no hay usuarios");
@@ -80,7 +84,7 @@ class UserManager {
             let user = usuarios.find((each) => each.id === id); // buscamos  por el ID que nos mandan.
             if (!user) {
 
-                throw new Error("Usuario no encontrado");
+                return null;
                 // si no encontramos el id largamos un error 
             } else {
                 console.log(user);
