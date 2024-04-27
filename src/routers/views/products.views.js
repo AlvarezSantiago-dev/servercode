@@ -1,14 +1,15 @@
 import { Router } from "express";
-import productManager from "../../data/fs/ProductsManager.promise.js";
+import productManager from "../../data/mongo/Managers/ProductManager.mongo.js";
+//import productManager from "../../data/fs/ProductsManager.promise.js";
 const productsViewRouter =  Router()
 
 
     
 productsViewRouter.get("/", async (req, resp, next) => {
     try {
-        const {category} = req.query;
-        const products = await productManager.read(category);
-        resp.render("products",{title: 'Products', products});
+        let products = await productManager.read();
+        products =  JSON.parse(JSON.stringify(products));
+        resp .render("products", {products});
     } catch (error) {
         next(error);
     }
@@ -17,6 +18,7 @@ productsViewRouter.get("/", async (req, resp, next) => {
 productsViewRouter.get("/real", async (req,resp,next) => {
     try {
         const products = await productManager.read();
+        
         resp.render("real", {products})
     } catch (error) {
         next(error)
@@ -31,8 +33,6 @@ productsViewRouter.get("/:id", async  (req, resp, next ) => {
         next(error);
     }
 });
-
-
 
 
 export default productsViewRouter;

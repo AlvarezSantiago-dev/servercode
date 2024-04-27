@@ -5,7 +5,7 @@
     "photo": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFosY_nBnFL5vwZkptcqkTSRTGEo4GO_cIBrDXBrFa3A&s",
     "email": "lucia@gmail.com",
     "password": "pasword1",
-    "role": "usuario"
+    "role": "user"
   },
   {
     "id": "d87dba090bf4e20db19f9f7e",
@@ -13,7 +13,7 @@
     "photo": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFosY_nBnFL5vwZkptcqkTSRTGEo4GO_cIBrDXBrFa3A&s",
     "email": "tomas@gmail.com",
     "password": "pasword1",
-    "role": "usuario"
+    "role": "user"
   },
   {
     "id": "45ce3fefe2500f63761a683e",
@@ -30,13 +30,5 @@
     "email": "julieta@gmail.com",
     "password": "pasword1",
     "role": "admin"
-  },
-  {
-    "id": "86501df7af94cbc781cd45c4",
-    "name": "Prueba",
-    "photo": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFosY_nBnFL5vwZkptcqkTSRTGEo4GO_cIBrDXBrFa3A&s",
-    "email": "22@hotmail.com",
-    "password": "1234",
-    "role": "usuario"
   }
 ]

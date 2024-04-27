@@ -41,8 +41,25 @@ class ProductManager {
         } catch (error) {
             console.log(error);
         }
-
     }
+//CORREGIR Y HACER FUNCIONAL
+    update(id, data) {
+        try {
+            let busqueda = ProductManager.#productos.find(item => item.id == id);
+            if(!busqueda){
+                throw new Error(`No se ha encontrado un producto con la ID ${id}`);
+                }else{
+                    for (const key in data) {
+                        busqueda[key] =  data[key];
+                    }
+                    return busqueda;
+                    
+            }
+        } catch (error) {
+            throw error;
+        }
+    }
+
     destroy(id) {
         try {
             let busqueda = ProductManager.#productos.find(e => e.id === id);
@@ -60,7 +77,7 @@ class ProductManager {
     }
 }
 
-
+//Funcion test products
 
 function test() {
     try {

@@ -52,7 +52,25 @@ class UsersManager {
         } catch (error) {
             console.log(error);
         }
+    }
+//CORREGIR Y HACER FUNCIONAL
+    update(id, data) {
+        try {
+            let busqueda = UsersManager.#users.find(item => item.id == id);
+            if(!busqueda){
+                throw new Error(`No se ha encontrado un producto con la ID ${id}`);
+                }else{
+                    for (const key in data) {
+                        busqueda[key] =  data[key];
+                    }
+                    console.log(busqueda);
+                    return busqueda;
+                   //Simulamos una latencia de red
 
+            }
+        } catch (error) {
+            throw error;
+        }
     }
     destroy(id) {
         try {
@@ -71,7 +89,7 @@ class UsersManager {
     }
 }
 
-
+//funcion test users
 function test() {
     try {
         const usuarios = new UsersManager();
@@ -101,13 +119,13 @@ function test() {
         // Destuimos por id
         console.log(usuarios.destroy(idUsuario2));
         console.log(" Paso4: Creamos un nuevo usuario.");
-        const ultimousuario = usuarios.create({
+        const ultimoUsuario = usuarios.create({
             name: `Santiago`,
             email: `santiago@gmail.com`,
             password: "user3",
             role: "admin",
         });
-        console.log(usuarios.readOne(ultimousuario.id));
+        console.log(usuarios.readOne(ultimoUsuario.id));
 
         console.log("Paso5: Eliminamos el ultimo usuario creado.",usuarios.destroy(ultimousuario.id));
     } catch (error) {

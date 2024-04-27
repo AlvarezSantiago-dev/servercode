@@ -1,6 +1,7 @@
 <section class="d-flex">
     <article class="d-flex flex-column align-items-center w-50">
-        <h3 class="p-2">Registrar usuario</h3>
+        <h3 class="p-2">User register</h3>
+        <p>Maintenance</p>
         <form class="d-flex flex-column">
             <label for="name">Name:</label>
             <input class="m-2" type="text" name="name" id="name">
@@ -15,12 +16,17 @@
     </article>
     <article class="d-flex flex-column w-50 ">
         <h2 class="text-center">Usuarios registrados</h2>
+        <p>Utilice la siguiente ruta para buscar un nuevo usuario:
+            <strong>http://localhost:8080/users/:id</strong>
+        </p>
+        <p>En lugar de :id coloque un ID existente.</p>
+        <p>Los usuarios registrados son:</p>
         <div class="d-flex flex-wrap justify-content-center">
             {{#each users}}
                 <div class="card m-3 align-items-center" style="width: 20rem;">
-                    <p class="card-text text-center">ID:{{this.id}}</p>
-                    <h5 class="card-title text-center">{{this.name}}</h5>
-                    <p class="card-text text-center">{{this.email}}</p>
+                    <p class="card-text text-center">ID: {{_id}}</p>
+                    <h5 class="card-title text-center">{{name}}</h5>
+                    <p class="card-text text-center">{{email}}</p>
                 </div>
         {{/each}}
         </div>
