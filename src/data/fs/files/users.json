@@ -30,5 +30,13 @@
     "email": "julieta@gmail.com",
     "password": "pasword1",
     "role": "admin"
+  },
+  {
+    "id": "86501df7af94cbc781cd45c4",
+    "name": "Prueba",
+    "photo": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFosY_nBnFL5vwZkptcqkTSRTGEo4GO_cIBrDXBrFa3A&s",
+    "email": "22@hotmail.com",
+    "password": "1234",
+    "role": "usuario"
   }
 ]

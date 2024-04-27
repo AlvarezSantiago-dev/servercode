@@ -43,7 +43,7 @@ productRouter.get("/", async (req, resp) => {
             });
         } else {
             const error = new Error("NOT FOUND");
-            error.statusCode = 404
+            error.statusCode = 404;
             throw error;
         }
     } catch (error) {

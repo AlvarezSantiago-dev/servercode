@@ -68,7 +68,7 @@ class ProductManager {
             if (allProducts.length === 0) {
                 return null;
             } else {
-                console.log(allProducts); //FUNCIONAL PARA EL TEST
+                console.log(allProducts);
                 return allProducts;
             }
         } catch (error) {
