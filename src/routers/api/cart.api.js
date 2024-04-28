@@ -1,19 +1,12 @@
-import { Router, response } from "express";
-import productManager from "../../data/mongo/Managers/ProductManager.mongo.js";
+import { Router } from "express";
+import cartsManger from "../../data/mongo/Managers/CartManager.mongo.js";
 
-//mongo import 
-
-// fs import 
-//import productManager from "../../data/fs/ProductsManager.promise.js";
-
-// ENRRUTADOR RECURSO PRODUCTOS
-const productRouter = Router();
-
-//trer un solo producto
-productRouter.get("/:id", async (req, resp) => {
+const cartsRouter = Router();
+//readOne
+cartsRouter.get("/:id", async (req, resp) => {
     try {
         const { id } = req.params
-        const one = await productManager.readOne(id);
+        const one = await cartsManger.readOne(id);
         if (one) {
             return resp.status(200).json({
                 response: one,
@@ -32,10 +25,10 @@ productRouter.get("/:id", async (req, resp) => {
         })
     }
 });
-// filtrado por category products
-productRouter.get("/", async (req, resp) => {
+// read
+cartsRouter.get("/", async (req, resp) => {
     try {
-        const allproducts = await productManager.read();
+        const allproducts = await cartsManger.read();
         if (allproducts.length  > 0) {
             return resp.json({
                 statusCode: 200,
@@ -43,28 +36,26 @@ productRouter.get("/", async (req, resp) => {
             });
         } else {
             const error = new Error("NOT FOUND");
-            error.statusCode = 404;
+            error.statusCode = 404
             throw error;
         }
     } catch (error) {
         console.log(error);
         resp.status(404).json({
             response: null,
-            menssage: "No se encuentra ningun producto"
+            menssage: "No se encuentra ningun carrito"
         })
     }
 });
+//create 
+cartsRouter.post("/", create); 
+cartsRouter.put("/:id", update);
+cartsRouter.delete("/:id", destroy)
 
-productRouter.post("/", create); 
-productRouter.put("/:id", update);
-productRouter.delete("/:id", destroy);
-
-
-// crear producto
 async function create (req, resp, next) {
     try {
         const data = req.body; //Guardo en una variable el objeto body : Datos q me envia el usuario.
-        let product = await productManager.create(data);
+        let product = await cartsManger.create(data);
         return resp.json({
             statusCode: 201,
             menssage: 'Product created, id:' + product.id,
@@ -73,31 +64,32 @@ async function create (req, resp, next) {
         return next(error)
     }
 };
-// actualizar producto
+
+
 async function update(req, resp, next){
     try {
         const {id} = req.params;
         const data = req.body;
-        const product = await productManager.update(id, data);
-        if (!product) {
-            const error = new Error('El Producto no existe');
+        const cart = await cartsManger.update(id, data);
+        if (!cart) {
+            const error = new Error('El cart no existe');
             throw error;
             } else {
                 return resp.json({
                     statusCode: 200,
-                    message: `Se ha actualizado correctamente el producto con id ${id}`,
-                    response: product })
+                    message: `Se ha actualizado correctamente el cart con id ${id}`,
+                    response: cart })
             }
     } 
     catch (error) {
         return next(error)
     }
 }
-// elminar producto
+
 async function destroy(req, resp, next)  {
     try {
         const {id} = req.params;
-        const one = await productManager.destroy(id)
+        const one = await cartsManger.destroy(id)
         if  (!one) {
             const error = new Error("NOT FOUND");
             error.statusCode = 404
@@ -112,6 +104,6 @@ async function destroy(req, resp, next)  {
         return next(error)
     }
 }
-// endpoints
 
-export default productRouter;
+
+export default cartsRouter;

@@ -32,7 +32,7 @@ class ProductManager {
                     // creamos el objeto con los valores.
                     id: crypto.randomBytes(12).toString(`hex`), // id  aleatorio en hexadecimal
                     tittle: data.tittle,
-                    photo: data.photo || "url.jpg", // foto o url.
+                    photo: data.photo || "https://www.casaroller.com.ar/sites/default/files/default_images/product-default.jpg", // foto o url.
                     category: data.category,
                     price: data.price,
                     stock: data.stock,
@@ -72,7 +72,7 @@ class ProductManager {
                 return allProducts;
             }
         } catch (error) {
-            console.log(error);
+            console.log(error); 
         }
     }
 
@@ -87,7 +87,7 @@ class ProductManager {
                 return null;
                 // si no encontramos el id largamos un error 
             } else {
-                console.log(product);
+                console.log(product); // FUNCIONAL PARA EL TEST
                 return product;
             }
         } catch (error) {
@@ -97,7 +97,8 @@ class ProductManager {
     }
     async update(id, data) {
         try {
-            let all = await this.read(); // Asumiendo que tienes una función read() que carga y devuelve todos los productos.
+            let all = await fs.promises.readFile(this.path, "utf-8");
+            all = JSON.parse(all);
             let one = all.find((each) => each.id === id);
             if (one) {
                 for (let prop in data) {
@@ -147,6 +148,38 @@ class ProductManager {
 const productManager = new ProductManager()
 export default productManager;
 
-// DURANTE LA CLASE VIMOS UN ERROR.
-//El mismo pasaba porque si no utilizamos el metodo async / await se perdia el orden. de las funciones. 
+//TEST FUNCIONAL PRODUCTS.  PARA HACERLO FUNCIONAL SE DEBE CAMBIAR EL PATH 
+// this.path = "./files/products.json"
+//Crea 2 productos, a uno lo lee (readOne) a otro lo modifica (update), y elimina a ambos. 
+/*
+async function test() {
+    try {
+        const product = new ProductManager();
+        const product1 = await product.create( {tittle:"Product1", category:"categ1", price:1, stock: 2} )
+        const product2 = await product.create( {tittle:"Product2", category:"categ2", price:22, stock:3} )
+        
+        const idproduct1 = product1.id;
+        const idproduct2 = product2.id;
+        await product.read();
+        console.log("Function readOne detecto:");
+        await product.readOne(idproduct1)
+        
+    // 
 
+    // TEST UPDATE.
+        const updatePrice = await product.update(idproduct1,{tittle:"ProductoText modificado" ,price:100, stock: 20})
+        console.log("Se actualizo el tittle, el price y el stock en:",updatePrice);
+    
+    //TEST DELETE.
+    await product.destroy(idproduct2);
+    await product.destroy(idproduct1);
+    
+    } catch (error) {
+        console.log(error);
+    }
+    //TEST DELETE
+    
+    
+}
+test();
+*/

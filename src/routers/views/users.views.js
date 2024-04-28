@@ -1,13 +1,15 @@
 import { Router } from "express";
-import userManager from "../../data/fs/UsersManager.promises.js";
+import userManager from "../../data/mongo/Managers/UserManager.mongo.js";
+
+//import userManager from "../../data/fs/UsersManager.promises.js";
 const usersViewRouter = Router();
 
 
 
 usersViewRouter.get("/register", async (req,resp,next) => {
     try {
-        const {role} = req.query;
-        let users = await userManager.read(role);
+        let users = await userManager.read();
+        users = JSON.parse(JSON.stringify(users)); //deep copy
         resp.render("register",{users});
 
     } catch (error) {

@@ -1,5 +1,6 @@
 import { Router } from "express";
-import userManager from "../../data/fs/UsersManager.promises.js";
+//import userManager from "../../data/fs/UsersManager.promises.js";
+import userManager from "../../data/mongo/Managers/UserManager.mongo.js";
 // ENRRUTADOR RECURSO USUARIOS
 const usersRouter = Router();
 
@@ -89,10 +90,19 @@ async function destroy(req, resp, next)  {
     try {
         const {id} = req.params;
         const one = await userManager.destroy(id)
-        return resp.json({
-            statusCode: 200,
-            response: one
-        })
+        if  (!one){
+            return resp.json({
+                statusCode: 404,
+                response: "User not found",
+            })
+        }
+        else {
+            return resp.json({
+                statusCode: 200,
+                response: one
+            })
+        }
+        
     } catch (error) {
         return next(error)
     }
