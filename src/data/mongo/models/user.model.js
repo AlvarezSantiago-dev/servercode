@@ -1,4 +1,5 @@
 import { Schema, model } from "mongoose";
+import mongoosePaginate from 'mongoose-paginate-v2';
 //creamos coleccion de users
 const collection = "users"
 
@@ -11,6 +12,7 @@ const schema = new Schema({
 },
     { timestamps: true });
 
+schema.plugin(mongoosePaginate)
 const UserModel = model(collection, schema);
 export default UserModel;
 /*

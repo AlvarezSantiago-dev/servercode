@@ -1,5 +1,5 @@
 import { Schema, model } from "mongoose"; // FORMA DEL DATO + GENERAR MODELO
-
+import mongoosePaginate from 'mongoose-paginate-v2';
 const collection = "products"
 //timestamos: guarda la fecha  de creacion y actualizacion del documento BSON.
 const schema = new Schema({
@@ -9,8 +9,9 @@ const schema = new Schema({
     // default: "category " para dar valor default.
     category: { type: String, required: true, enum: ["zapatillas", "indumentaria", "celulares", "accesorios"] },
     stock: { type: String,  default: 1}
-}, { timestamps: true })
+}, { timestamps: true });
 
+schema.plugin(mongoosePaginate);
 const ProductModel = model(collection, schema);
 
 export default ProductModel;

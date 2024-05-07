@@ -4,9 +4,54 @@ import userManager from "../../data/mongo/Managers/UserManager.mongo.js";
 // ENRRUTADOR RECURSO USUARIOS
 const usersRouter = Router();
 
-
-//ENDPOINTS
+usersRouter.get("/paginate", async (req,resp)=>{
+    try {
+        const filter = {}; // Puedes definir aquí tus filtros de ser necesario
+        const opts = {};
+        const all = await userManager.paginate({ filter, opts });
+        return resp.json({
+            statusCode: 200,
+            response: all.docs,
+            info :{
+                page:all.page,
+                totalPages: all.totalPages,
+                limit: all.limit,
+                prevPage: all.prevPage,
+                nextPage: all.nextPage,
+            }
+        })
+    } catch (error) {
+        console.log(error);
+        resp.status(404).json({
+            response: null,
+            menssage: "No se encuentra el usuario"
+        })
+    }
+})
 // filtrado por role.
+usersRouter.get("/:id", async (req, resp) => {
+    try {
+        const { id } = req.params
+        const one = await userManager.readOne(id);
+        if (one) {
+            return resp.status(200).json({
+                response: one,
+                success: true
+            })
+        } else {
+            const error = new Error("NOT FOUND");
+            error.statusCode = 404
+            throw error;
+        }
+    } catch (error) {
+        console.log(error);
+        resp.status(404).json({
+            response: null,
+            menssage: "No se encuentra el usuario"
+        })
+    }
+})
+
 usersRouter.get("/", async (req, resp) => {
     try {
         const { role } = req.query
@@ -32,28 +77,6 @@ usersRouter.get("/", async (req, resp) => {
 })
 
 // trer un solo user.
-usersRouter.get("/:id", async (req, resp) => {
-    try {
-        const { id } = req.params
-        const one = await userManager.readOne(id);
-        if (one) {
-            return resp.status(200).json({
-                response: one,
-                success: true
-            })
-        } else {
-            const error = new Error("NOT FOUND");
-            error.statusCode = 404
-            throw error;
-        }
-    } catch (error) {
-        console.log(error);
-        resp.status(404).json({
-            response: null,
-            menssage: "No se encuentra el usuario"
-        })
-    }
-})
 
 usersRouter.post("/", create); 
 usersRouter.put("/:id", update);

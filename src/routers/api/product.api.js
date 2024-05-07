@@ -1,4 +1,4 @@
-import { Router, response } from "express";
+import { Router } from "express";
 import productManager from "../../data/mongo/Managers/ProductManager.mongo.js";
 
 //mongo import 
@@ -9,8 +9,46 @@ import productManager from "../../data/mongo/Managers/ProductManager.mongo.js";
 // ENRRUTADOR RECURSO PRODUCTOS
 const productRouter = Router();
 
-//trer un solo producto
-productRouter.get("/:id", async (req, resp) => {
+
+// filtrado por category products
+productRouter.get("/paginate", paginate);
+productRouter.get("/:id", readOne);
+productRouter.get("/", read);
+
+
+productRouter.post("/", create); 
+productRouter.put("/:id", update);
+productRouter.delete("/:id", destroy);
+
+
+
+async function read(req, resp, next) {
+    try {
+        const { category } = req.query;
+        let allproducts;
+
+        if (category) {
+            allproducts = await productManager.read({ category });
+        } else {
+            // Si no se proporciona ninguna categoría, obtener todos los productos
+            allproducts = await productManager.readAll();
+        }
+
+        if (allproducts.length > 0) {
+            return resp.json({
+                statusCode: 200,
+                response: allproducts
+            });
+        } else {
+            const error = new Error("NOT FOUND");
+            error.statusCode = 404;
+            throw error;
+        }
+    } catch (error) {
+        next(error);
+    }
+}
+async function readOne(req,resp,next){
     try {
         const { id } = req.params
         const one = await productManager.readOne(id);
@@ -25,41 +63,42 @@ productRouter.get("/:id", async (req, resp) => {
             throw error;
         }
     } catch (error) {
-        console.log(error);
-        resp.status(404).json({
-            response: null,
-            menssage: "No se encuentra el producto"
-        })
+        next(error);
     }
-});
-// filtrado por category products
-productRouter.get("/", async (req, resp) => {
+}
+async function paginate(req, resp, next) {
     try {
-        const allproducts = await productManager.read();
-        if (allproducts.length  > 0) {
-            return resp.json({
-                statusCode: 200,
-                response: allproducts
-            });
-        } else {
-            const error = new Error("NOT FOUND");
-            error.statusCode = 404;
-            throw error;
+        
+        const filter = {}; // Puedes definir aquí tus filtros de ser necesario
+        const opts = {};
+        if(req.query.limit){
+            opts.limit = req.query.limit
         }
+        if(req.query.page){
+            opts.page = req.query.page
+        }
+        //aca no va. va en carrito el filtrado.
+        if(req.query.user_id){
+            filter.user_id = req.query.user_id;
+        }
+        //eliminar cuando hagamos filtrado de cart.
+        const all = await productManager.paginate({ filter, opts });
+        return resp.json({
+            statusCode: 200,
+            response: all.docs,
+            info :{
+                page:all.page,
+                totalPages: all.totalPages,
+                limit: all.limit,
+                prevPage: all.prevPage,
+                nextPage: all.nextPage,
+            }
+
+        });
     } catch (error) {
-        console.log(error);
-        resp.status(404).json({
-            response: null,
-            menssage: "No se encuentra ningun producto"
-        })
+        next(error);
     }
-});
-
-productRouter.post("/", create); 
-productRouter.put("/:id", update);
-productRouter.delete("/:id", destroy);
-
-
+}
 // crear producto
 async function create (req, resp, next) {
     try {

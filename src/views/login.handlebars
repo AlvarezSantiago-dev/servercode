@@ -1,4 +1,16 @@
-<article class="d-flex flex-column  ">
+<section class="d-flex">
+    <article class="d-flex flex-column align-items-center w-50">
+        <h3 class="p-2">Login</h3>
+        <p>Maintenance</p>
+        <form class="d-flex flex-column">
+            <label for="email">Email:</label>
+            <input class="m-2" type="text" id="email" name="email">
+            <label for="password">Password:</label>
+            <input class="m-2" type="password" id="password" name="password">
+            <input class="m-2" type="button" value="Login" id="ingreso">
+        </form>
+    </article>
+    <article class="d-flex flex-column w-50 ">
         <h2 class="text-center">Usuarios registrados</h2>
         <p>Utilice la siguiente ruta para buscar un nuevo usuario:
             <strong>http://localhost:8080/users/:id</strong>
@@ -11,10 +23,9 @@
                     <p class="card-text text-center">ID: {{_id}}</p>
                     <h5 class="card-title text-center">{{name}}</h5>
                     <p class="card-text text-center">{{email}}</p>
-                    <a href="/users/{{_id}}" class="btn btn-success text-center" style="p-3">Ver Perfil</a>
                 </div>
-                
         {{/each}}
         </div>
 
     </article>
+</section>
