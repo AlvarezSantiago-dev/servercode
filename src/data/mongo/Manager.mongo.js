@@ -4,31 +4,61 @@ class Manager {
     }
     async create(data) {
         try {
-            const one = await this.Model.create(data);
+            const one = await this.Model.create(data)
             return one;
         } catch (error) {
             throw error
         }
     }
-    async read(){
+    async readAll() {
         try {
-            const all = await this.Model.find();
-            return all
+            const all = await this.Model.find().lean();
+            return all;
+        } catch (error) {
+            throw error;
+        }
+    }
+    async read(category) {
+        try {
+            let query = {};
+            if (category) {
+                query = { category };
+            }
+            const all = await this.Model.find(category).lean();
+            return all;
         } catch (error) {
             throw error
         }
     }
-    async readOne(id){
+
+    async readCart(user_id) {
         try {
-            const one = await this.Model.findById({_id: id});
+            const all = await this.Model.find({ user_id: user_id }).lean();
+            return all;
+        } catch (error) {
+            throw error;
+        }
+    }
+    async paginate({ filter, opts }) {
+        try {
+            const all = await this.Model.paginate(filter, opts);
+            return all;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    async readOne(id) {
+        try {
+            const one = await this.Model.findById(id).lean();
             return one;
         } catch (error) {
             throw error
         }
     }
-    async update(id, data){
+    async update(id, data) {
         try {
-            const one = await this.Model.findByIdAndUpdate(id,data,{new: true})
+            const one = await this.Model.findByIdAndUpdate(id, data, { new: true })
             return one;
         } catch (error) {
             throw error
@@ -36,8 +66,8 @@ class Manager {
     }
     async destroy(id) {
         try {
-            const elimined = await this.Model.findByIdAndDelete(id);
-            return  elimined;
+            const elimined = await this.Model.findByIdAndDelete(id).lean();;
+            return elimined;
         } catch (error) {
             throw error
         }

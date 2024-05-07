@@ -14,6 +14,7 @@ import errorHandler from "./src/middlewares/errorHandler.js";
 import pathHandler from "./src/middlewares/pathHandler.js";
 import __dirname from "./src/utils.js";
 import dbConnect from "./src/utils/dbConect.utils.js";
+import indexViewRouter from "./src/routers/views/index.views.js";
 
 /*
 console.log("Variable de entorno."+process.env.MONGO_URI);
@@ -35,19 +36,18 @@ socketServer.on("connection", socketCb);
 nodeServer.listen(port, ready);
 // Iniciar el servidor.
 
-//inicializar el motor handlebars
-server.engine("handlebars", engine()) // carpeta de las vistas
-server.set( "view engine", "handlebars") //asignamos  a handlebars como nuestro motor de plantillas
-server.set('views', __dirname+ '/views')  //carpeta donde se encuentran las v
-//Midleware para mostrar
-
 //middlewares
-server.use(express.json()); // para que los datos se envíen en formato JSON
-server.use(express.urlencoded({ extended: true }));  //Para poder enviar información por get o post con parámetros
-server.use(morgan("dev")); //muestra las peticiones realizadas al servidor
-server.use(express.static( __dirname+"/public")) // sirve todos
+server.use(express.json()); //permite leer req.params y req.query
+server.use(express.urlencoded({ extended: true }));
+server.use(express.static(__dirname + "/public"));
+server.use(morgan("dev"));
 
+//template engine
+server.engine("handlebars", engine());
+server.set("view engine", "handlebars");
+server.set("views", __dirname + "/views");
 
+//endpoints
 server.use("/", indexRouter);
 server.use(errorHandler);
 server.use(pathHandler);
