@@ -1,0 +1,20 @@
+<article class="d-flex flex-column  ">
+        <h2 class="text-center">Usuarios registrados</h2>
+        <p>Utilice la siguiente ruta para buscar un nuevo usuario:
+            <strong>http://localhost:8080/users/:id</strong>
+        </p>
+        <p>En lugar de :id coloque un ID existente.</p>
+        <p>Los usuarios registrados son:</p>
+        <div class="d-flex flex-wrap justify-content-center">
+            {{#each users}}
+                <div class="card m-3 align-items-center" style="width: 20rem;">
+                    <p class="card-text text-center">ID: {{_id}}</p>
+                    <h5 class="card-title text-center">{{name}}</h5>
+                    <p class="card-text text-center">{{email}}</p>
+                    <a href="/users/{{_id}}" class="btn btn-success text-center" style="p-3">Ver Perfil</a>
+                </div>
+                
+        {{/each}}
+        </div>
+
+    </article>

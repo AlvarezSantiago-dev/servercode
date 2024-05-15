@@ -1,10 +1,54 @@
 import { Router } from "express";
-import productManager from "../../data/fs/ProductsManager.promise.js";
+import productManager from "../../data/mongo/Managers/ProductManager.mongo.js";
+
+//mongo import 
+
+// fs import 
+//import productManager from "../../data/fs/ProductsManager.promise.js";
+
 // ENRRUTADOR RECURSO PRODUCTOS
 const productRouter = Router();
 
-//trer un solo producto
-productRouter.get("/:id", async (req, resp) => {
+
+// filtrado por category products
+productRouter.get("/paginate", paginate);
+productRouter.get("/:id", readOne);
+productRouter.get("/", read);
+
+
+productRouter.post("/", create); 
+productRouter.put("/:id", update);
+productRouter.delete("/:id", destroy);
+
+
+
+async function read(req, resp, next) {
+    try {
+        const { category } = req.query;
+        let allproducts;
+
+        if (category) {
+            allproducts = await productManager.read({ category });
+        } else {
+            // Si no se proporciona ninguna categoría, obtener todos los productos
+            allproducts = await productManager.readAll();
+        }
+
+        if (allproducts.length > 0) {
+            return resp.json({
+                statusCode: 200,
+                response: allproducts
+            });
+        } else {
+            const error = new Error("NOT FOUND");
+            error.statusCode = 404;
+            throw error;
+        }
+    } catch (error) {
+        next(error);
+    }
+}
+async function readOne(req,resp,next){
     try {
         const { id } = req.params
         const one = await productManager.readOne(id);
@@ -19,44 +63,42 @@ productRouter.get("/:id", async (req, resp) => {
             throw error;
         }
     } catch (error) {
-        console.log(error);
-        resp.status(404).json({
-            response: null,
-            menssage: "No se encuentra el producto"
-        })
+        next(error);
     }
-});
-
-// filtrado por category products
-productRouter.get("/", async (req, resp) => {
+}
+async function paginate(req, resp, next) {
     try {
-        const { category } = req.query
-        const allproducts = await productManager.read(category);
-        if (allproducts) {
-            return resp.status(200).json({
-                responese: allproducts,
-                category,
-                success: true
-            })
-        } else {
-            const error = new Error("NOT FOUND");
-            error.statusCode = 404
-            throw error;
+        
+        const filter = {}; // Puedes definir aquí tus filtros de ser necesario
+        const opts = {};
+        if(req.query.limit){
+            opts.limit = req.query.limit
         }
+        if(req.query.page){
+            opts.page = req.query.page
+        }
+        //aca no va. va en carrito el filtrado.
+        if(req.query.user_id){
+            filter.user_id = req.query.user_id;
+        }
+        //eliminar cuando hagamos filtrado de cart.
+        const all = await productManager.paginate({ filter, opts });
+        return resp.json({
+            statusCode: 200,
+            response: all.docs,
+            info :{
+                page:all.page,
+                totalPages: all.totalPages,
+                limit: all.limit,
+                prevPage: all.prevPage,
+                nextPage: all.nextPage,
+            }
+
+        });
     } catch (error) {
-        console.log(error);
-        resp.status(404).json({
-            response: null,
-            menssage: "No se encuentra la categoria"
-        })
+        next(error);
     }
-})
-productRouter.post("/", create); 
-productRouter.put("/:id", update);
-productRouter.delete("/:id", destroy);
-
-
-
+}
 // crear producto
 async function create (req, resp, next) {
     try {
@@ -76,11 +118,17 @@ async function update(req, resp, next){
         const {id} = req.params;
         const data = req.body;
         const product = await productManager.update(id, data);
-        return resp.json({
-            statusCode: 200,
-            response: product
-        })
-    } catch (error) {
+        if (!product) {
+            const error = new Error('El Producto no existe');
+            throw error;
+            } else {
+                return resp.json({
+                    statusCode: 200,
+                    message: `Se ha actualizado correctamente el producto con id ${id}`,
+                    response: product })
+            }
+    } 
+    catch (error) {
         return next(error)
     }
 }
@@ -89,10 +137,16 @@ async function destroy(req, resp, next)  {
     try {
         const {id} = req.params;
         const one = await productManager.destroy(id)
+        if  (!one) {
+            const error = new Error("NOT FOUND");
+            error.statusCode = 404
+            throw error;
+        } else{
         return resp.json({
             statusCode: 200,
             response: one
         })
+    }
     } catch (error) {
         return next(error)
     }

@@ -1,0 +1,34 @@
+<h1 class="text-center">Products</h1>
+
+<div class="d-flex justify-content-center">
+    <div aria-label="Page navigation example">
+        <ul class="pagination d-flex justify-content-center align-items-center pt-5">
+            <li class="page-item"><a class="page-link text-success"
+                    href="/products/paginate?limit={{limit}}&page={{prevPage}}">Previous</a></li>
+
+            {{#each pagination}}
+            <li class="page-item">
+                <a class="page-link text-success"
+                    href="/products/paginate?limit={{../limit}}&page={{this}}">{{this}}</a>
+            </li>
+            {{/each}}
+            <li class="page-item"><a class="page-link text-success"
+                    href="/products/paginate?limit={{limit}}&page={{nextPage}}">Next</a></li>
+
+        </ul>
+    </div>
+</div>
+
+<div class="d-flex flex-row justify-content-lg-between flex-wrap">
+    {{#each products}}
+    <div class="card p-4 flex-fill m-3" style="width: 20rem;">
+        <img src="{{photo}}" class="card-img-top" alt="Product Image">
+        <div class="card-body bg-secondary">
+            <h5 class="card-title" style="width: 16rem;">{{tittle}}</h5>
+            <div class="card d-flex ">
+                <a href="/products/{{_id}}" class="btn btn-danger">Detalles</a>
+            </div>
+</div>
+</div>
+    {{/each}}
+    

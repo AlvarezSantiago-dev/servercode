@@ -1,0 +1,45 @@
+<section class="d-flex flex-column flex-grap">
+    <article class="d-flex flex-column align-items-center ">
+        <h3 class="p-2">Registrar Producto</h3>
+        <form class="d-flex flex-column">
+            <label for="tittle">Title:</label>
+            <input class="m-2" type="text" name="tittle" id="tittle">
+            <label for="price">Price:</label>
+            <input class="m-2" type="text" id="price" name="price">
+            <label for="category">Category:</label>
+            <input class="m-2" type="category" id="category" name="category">
+            <label for="stock">Stock:</label>
+            <input class="m-2" type="text" name="stock" id="stock">
+            <input class="m-2" type="button" value="Register" id="newproduct">
+        </form>
+    </article>
+    <article id="products" class="d-flex flex-row justify-content-lg-between flex-wrap"></article>
+</section>
+
+<script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+<script>
+    const socket = io();
+    socket.on("products", data => {
+        console.log(data);
+        let template = ``
+        template = data.map(each => `
+        <div class="card" style="width: 20rem;">
+    <img src="${each.photo}" class="card-img-top" alt="${each.id}">
+    <div class="card-body bg-secondary m-2">
+    <h5 class="card-title">${each.tittle}</h5>
+    <span class="text-white">Category: ${each.category}</span>
+    <p class="text-danger p-1"> Stock: ${each.stock}</p>
+    <span class="float-end text-white"> Price: $${each.price}</span>
+    </div>
+</div>
+    `).join("");
+        document.querySelector("#products").innerHTML = template
+    })
+    document.querySelector('#newproduct').addEventListener('click', (event) => {
+        const price = document.querySelector("#price").value;
+        const tittle = document.querySelector("#tittle").value;
+        const category = document.querySelector("#category").value;
+        const stock = document.querySelector("#stock").value;
+        socket.emit("newproduct", { price, tittle, category, stock });
+    })
+</script>

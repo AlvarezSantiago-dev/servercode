@@ -23,7 +23,7 @@ class UserManager {
     async create(data) {
         // utilizamos metodo sync  para que se ejecute de manera sincronica 
         try {
-            if (!data.email || !data.password || !data.name || !data.role) {
+            if (!data.email || !data.password || !data.name ) {
                 throw new Error(`Todos los campos son obligatorios.`)
                 // si si faltan esos datos lanzamos un error.
             } else {
@@ -31,10 +31,10 @@ class UserManager {
                     // creamos el objeto con los valores.
                     id: crypto.randomBytes(12).toString(`hex`), // id  aleatorio en hexadecimal
                     name: data.name,
-                    photo: data.photo || "url.jpg", // foto o url.
+                    photo: data.photo || "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRFosY_nBnFL5vwZkptcqkTSRTGEo4GO_cIBrDXBrFa3A&s", // foto o url.
                     email: data.email,
                     password: data.password,
-                    role: data.role,
+                    role: data.role || "usuario",
                 };
                 let users = await fs.promises.readFile(this.path, "utf-8"); // usamos metodo readFile para leer el archivo
                 users = JSON.parse(users); // lo parseamos para usar esos datos luego. 
@@ -51,19 +51,23 @@ class UserManager {
     }
 
     // read  devuelve todos los registros
-    async read(role = "usuario") {
+    async read(role) {
         try {
             let all = await fs.promises.readFile(this.path, "utf-8");
             // leemos todo  el archivo y pasamos a formato json
             all = JSON.parse(all);
-            all = all.filter(e => e.role === role)
+
+            const validRole =['admin', 'usuario'];
+            if(role && validRole.includes(role)){
+                all = all.filter(e => e.role === role)
+            }
             //  parseamos
             if (all.length === 0) {
                 //throw new Error("no hay usuarios");
                 return null // PARA QUE NO RETORNE UN ARRAY VACIO. sino se cumpla else.
                 // si no hay usuarios
             } else {
-                console.log(all);
+                console.log(all); // Funcional para mostrar en TEST
                 return all;
                 // sino  retornamos los productos
             }
@@ -77,13 +81,12 @@ class UserManager {
             let usuarios = await fs.promises.readFile(this.path, "utf-8"); // traemos y leemos  todo el archivo
             //esperamos la lectura 
             usuarios = JSON.parse(usuarios); // parseamos el archivo  de usuarios
-            let user = usuarios.find((each) => each.id === id); // buscamos  por el ID que nos mandan.
+            let user = usuarios.find((each) => {each.id === id}); // buscamos  por el ID que nos mandan.
             if (!user) {
-
-                throw new Error("Usuario no encontrado");
+                return null;
                 // si no encontramos el id largamos un error 
             } else {
-                console.log(user);
+                console.log(user); // Funcional para mostrar en TEST
                 return user;
             }
         } catch (error) {
@@ -92,7 +95,8 @@ class UserManager {
     }
     async update(id, data) {
         try {
-            let all = await this.read(); // Asumiendo que tienes una función read() que carga y devuelve todos los productos.
+            let all = await fs.promises.readFile(this.path, "utf-8");
+            all = JSON.parse(all);
             let one = all.find((each) => each.id === id);
             if (one) {
                 for (let prop in data) {
@@ -142,41 +146,39 @@ class UserManager {
 
 const userManager = new UserManager();
 export default userManager;
+
+//TEST FUNCIONAL users.  PARA HACERLO FUNCIONAL SE DEBE CAMBIAR EL PATH 
+// this.path = "./files/users.json"
+//Crea 2 usuarios, a uno lo lee (readOne) a otro lo modifica (update), y elimina a ambos. 
 /*
-// DURANTE LA CLASE VIMOS UN ERROR. 
-//El mismo pasaba porque si no utilizamos el metodo async / await se perdia el orden. de las funciones. 
 async function test() {
     try {
-        const users = new UserManager();
-
-        const usuario1 =  await users.create({ name:"Lucas",email: "lucas@gmail.com", password: "pasword1", role: "usuario" });
-        const usuario2 =  await users.create({ name:"Julieta",email: "julieta@gmail.com", password: "pasword2", role: "usuario" });
-
-        const idUser1 = usuario1.id;
-        const idUser2 = usuario2.id;
-
-        console.log("Paso1: Mostramos todos los usuarios creados: ");
-        // Llamamos a todos
-        await users.read();
-        console.log( "Paso2: Llamamos en particular al usuario:");
-        // Llamamos solo a uno.
-        await users.readOne(idUser1);
-        // Destuimos por id
-        console.log("Paso3: Eliminamos un usuario en particular.");
-        await users.destroy(idUser2);
-        console.log("Paso4: Registramos un nuevo usuario.");
-
-        //creamos un ultimo y leemos su id para eliminarlo. pero no funciono. :c
-        const ultimo = await users.create({ name:"Santiago", email: "santiago@gmail.com", password: "1234", role: "admin"  });
-        console.log("Paso5: Llamamos a el ultimo usuario creado recientemente.");
-        await users.readOne(ultimo.id);
-        console.log("Paso6: Destruimos le ultimo user");
-        await users.destroy(ultimo.id);
+        const user = new UserManager();
+        const user1 = await user.create( {name:"Random", email:"randomb@gmail.com", password:"123", role: "user"} )
+        const user2 = await user.create( {name:"Random numero 2", email:"hola@hotmail.com", password:"nose123", role:"user"} )
         
+        const iDuser1 = user1.id;
+        const iDuser2 = user2.id;
+        await user.read();
+        console.log("Function readOne detecto:");
+        await user.readOne(iDuser1)
+        
+    // 
+
+    // TEST UPDATE.
+        const updated = await user.update(iDuser1,{name:"Usuario Textmodificado" ,password:"cambiopassword", role: "admin"})
+        console.log("Se actualizo el name, el password y el role en:",updated);
+    
+    //TEST DELETE.
+    await user.destroy(iDuser2);
+    await user.destroy(iDuser1);
+    
     } catch (error) {
         console.log(error);
     }
+    //TEST DELETE
+    
+    
 }
 test();
-
 */

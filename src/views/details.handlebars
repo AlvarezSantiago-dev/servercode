@@ -1,0 +1,26 @@
+    <form method="POST" action="/carts">
+        <div class="d-flex justify-content-center ">
+        {{#if _id}}
+        <div class="card p-3" style="width: 30rem; ">
+        <img src={{photo}} class="card-img-top" alt="...">
+        <div class="card-body bg-secondary m-2">
+            <h5 class="card-title">{{tittle}}</h5>
+            <span class="text-white">Category: {{category}}</span>
+            <br>
+            <p class="text-danger p-1"> Stock: {{stock}}</p>
+
+            <p class="card-text m-1">Some quick example text to build on the card title and make up the bulk of the
+                card's
+                content.</p>
+            <span class="float-end text-white"> Price: ${{price}}</span>
+            <input type="hidden" value="{{_id}}" name="product">
+            <button class="btn btn-success m-2 " type="submit">ADD TO CART</button>
+        </div>
+        {{else}}
+                <h1>PRODUCT NOT FOUND</h1>
+        {{/if}}
+        <a href="/products/paginate?limit=10&page=1" class="btn btn-danger m-1">Volver</a>
+    </div>
+    </form>
+
+    
