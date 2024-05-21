@@ -1,21 +1,31 @@
 import "dotenv/config.js"
+//express
 import express from "express";
-import {createServer} from 'http';
-import {Server} from "socket.io"
-
-
 import {engine} from "express-handlebars"
-import morgan from "morgan";
 
+//htpp
+import {createServer} from 'http';
+//socket
+import {Server} from "socket.io"
 import socketCb from "./src/routers/index.socket.js"
-
+//morgan
+import morgan from "morgan";
+//Routes
 import indexRouter from "./src/routers/index.router.js";
+import indexViewRouter from "./src/routers/views/index.views.js";
+//middlewares
 import errorHandler from "./src/middlewares/errorHandler.js";
 import pathHandler from "./src/middlewares/pathHandler.js";
+//utils
 import __dirname from "./src/utils.js";
+//utils Mongo
 import dbConnect from "./src/utils/dbConect.utils.js";
-import indexViewRouter from "./src/routers/views/index.views.js";
-
+//coockies
+import cookieParser from "cookie-parser";
+// sessions express
+//import fileStore from "session-file-store"
+import MongoStore from "connect-mongo";
+import session from "express-session";
 /*
 console.log("Variable de entorno."+process.env.MONGO_URI);
 */
@@ -35,8 +45,20 @@ socketServer.on("connection", socketCb);
 
 nodeServer.listen(port, ready);
 // Iniciar el servidor.
-
-//middlewares
+//const FileSession = fileStore(session)
+server.use(
+    session({
+    /*store: new FileSession({
+        path:"./src/data/fs/files/sessions",
+        ttl: 60 * 60,
+    }),*/
+    store: new MongoStore({mongoUrl: process.env.MONGO_URI,ttl: 60 * 60,}),
+    secret: process.env.SECRET_SESSION,
+    resave: true,
+    saveUninitialized: true,
+    //cookie: {maxAge: 60 * 60 * 1000}
+}))
+server.use(cookieParser(process.env.SECRET_COOKIE)); // metodos para gestionar cookies 
 server.use(express.json()); //permite leer req.params y req.query
 server.use(express.urlencoded({ extended: true }));
 server.use(express.static(__dirname + "/public"));

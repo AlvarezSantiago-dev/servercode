@@ -7,7 +7,7 @@
             <input class="m-2" type="text" id="email" name="email">
             <label for="password">Password:</label>
             <input class="m-2" type="password" id="password" name="password">
-            <input class="m-2" type="button" value="Login" id="ingreso">
+            <input class="m-2" type="button" value="Login" id="login">
         </form>
     </article>
     <article class="d-flex flex-column w-50 ">
@@ -23,9 +23,33 @@
                     <p class="card-text text-center">ID: {{_id}}</p>
                     <h5 class="card-title text-center">{{name}}</h5>
                     <p class="card-text text-center">{{email}}</p>
+                    <p class="card-text text-center">{{password}}</p>
                 </div>
         {{/each}}
         </div>
 
     </article>
 </section>
+
+<script>
+document.querySelector("#login").addEventListener("click", async () => {
+    const data = {
+        email: document.querySelector("#email").value,
+        password: document.querySelector("#password").value
+    }
+    const opts = {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(data),
+    }
+    let response = await fetch("http://localhost:8080/api/sessions/login", opts)
+    response = await response.json();
+    if(response.statusCode === 200 ){
+        return location.replace("http://localhost:8080/")
+    }
+    else {
+        alert(response.message)
+    }
+    console.log(response);
+})
+</script>

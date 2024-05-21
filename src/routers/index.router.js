@@ -3,8 +3,8 @@ import apiRouter from "./api/index.api.js";
 import indexViewRouter from "./views/index.views.js";
 
 const indexRouter = Router()
-
-indexRouter.use("/api", apiRouter )
 indexRouter.use("/", indexViewRouter);
+indexRouter.use("/api", apiRouter )
+
 
 export default indexRouter;
