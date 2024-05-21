@@ -3,6 +3,7 @@ import productsViewRouter from "./products.views.js";
 import usersViewRouter from "./users.views.js";
 import cartsViewRouter from "./carts.view.js";
 
+
 const indexViewRouter = Router();
 
 
@@ -31,4 +32,5 @@ indexViewRouter.use("/carts", cartsViewRouter)
 indexViewRouter.use("/products", productsViewRouter);
 
 indexViewRouter.use("/users", usersViewRouter);
+
 export default indexViewRouter;

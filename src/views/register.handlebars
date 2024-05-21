@@ -9,9 +9,32 @@
             <input class="m-2" type="text" id="email" name="email">
             <label for="password">Password:</label>
             <input class="m-2" type="password" id="password" name="password">
-            <label for="photo">Img(url):</label>
-            <input class="m-2" type="text" name="photo" id="photo">
-            <input class="m-2" type="button" value="Register" id="newUser">
+            <input class="m-2" type="button" value="Register" id="register">
         </form>
     </article>
 </section>
+
+<script>
+document.querySelector("#register").addEventListener("click", async () => {
+    const data = {
+        name: document.querySelector("#name").value,
+        email: document.querySelector("#email").value,
+        password: document.querySelector("#password").value,
+        
+    }
+    const opts = {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(data),
+    }
+
+    let response = await fetch("http://localhost:8080/api/sessions/register", opts)
+    response = await response.json();
+    if(response.statusCode === 201){
+        return location.replace("http://localhost:8080/users/login")
+    }
+    else{
+        alert(response.message)
+    }
+})
+</script>
