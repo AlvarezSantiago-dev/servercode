@@ -66,7 +66,7 @@ cartsRouter.get("/", async (req, resp) => {
         console.log(error);
         resp.status(404).json({
             response: null,
-            menssage: "No se encuentra ningun carrito"
+            message: "No se encuentra ningun carrito"
         })
     }
 });
@@ -74,16 +74,14 @@ cartsRouter.get("/", async (req, resp) => {
 cartsRouter.post("/", create);
 cartsRouter.put("/:id", update);
 cartsRouter.delete("/:id", destroy)
-
-
-
+cartsRouter.delete("/all", destroyAll);
 
 async function create(req, res, next) {
     try {
         const data = req.body;
         const newProduct = {
             product_id: data.product_id,
-            user_id: '662abe20e8e9eb8629378f73',
+            user_id: data.user_id,
             quantity: 1
         }
         const one = await cartsManger.create(newProduct);
@@ -96,7 +94,6 @@ async function create(req, res, next) {
         return next(error);
     }
 }
-
 async function update(req, res, next) {
     try {
         const { id } = req.params;
@@ -129,6 +126,18 @@ async function destroy(req, resp, next) {
         return next(error)
     }
 }
-
-
+async function destroyAll(req, res, next) {
+    try {
+        //console.log("hola")
+        const { user_id } = req.body;
+        //console.log(user_id)
+        const all = await cartsManger.destroyAll({ user_id: user_id });
+        return res.json({
+            statusCode: 200,
+            response: all,
+        });
+    } catch (error) {
+        return next(error);
+    }
+}
 export default cartsRouter;

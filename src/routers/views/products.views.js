@@ -7,24 +7,44 @@ const productsViewRouter = Router()
 productsViewRouter.get("/paginate", async (req, res, next) => {
     try {
         const { page, limit } = req.query;
-        const response = await fetch(`http://localhost:8080/api/products/paginate?limit=${limit}&page=${page}`);
+        const response = await fetch(
+            `http://localhost:8080/api/products/paginate?limit=${limit}&page=${page}`
+        );
         if (!response.ok) {
-            throw new Error('Failed to fetch data');
+            throw new Error("Failed to fetch data");
         }
         const fetchedDocs = await response.json();
-        console.log(fetchedDocs.info)
-        return res.render("index", { products: fetchedDocs.response, pagination: fetchedDocs.info.totalPage, limit: fetchedDocs.info.limit, nextPage: fetchedDocs.info.nextPage, prevPage: fetchedDocs.info.prevPage, url: '/products' });
+        //console.log(fetchedDocs.info)
+        if (req.session.user_id) {
+            return res.render("index", {
+                products: fetchedDocs.response,
+                pagination: fetchedDocs.info.totalPage,
+                limit: fetchedDocs.info.limit,
+                nextPage: fetchedDocs.info.nextPage,
+                prevPage: fetchedDocs.info.prevPage,
+                url: "/products",
+                user_id: req.session.user_id,
+            });
+        } else {
+            return res.render("index", {
+
+                user_id: req.session.user_id,
+            });
+        }
     } catch (error) {
         return next(error);
     }
 });
-productsViewRouter.get("/", async (req, resp, next) => {
+productsViewRouter.get("/", async (req, res, next) => {
     try {
-        const { category } = req.query
-        let products = await productManager.read(category);
-        resp.render("products", { products });
+        const products = await productManager.read();
+        if (req.session.user_id) {
+            return res.render("products", { products, user_id: req.session.user_id });
+        } else {
+            return res.render("products", { products, user_id: req.session.user_id });
+        }
     } catch (error) {
-        next(error);
+        return next(error);
     }
 });
 
@@ -37,15 +57,25 @@ productsViewRouter.get("/real", async (req, resp, next) => {
         next(error)
     }
 });
-productsViewRouter.get("/:id", async (req, resp, next) => {
+productsViewRouter.get("/:id", async (req, res, next) => {
     try {
         const { id } = req.params;
-        const product = await productManager.readOne(id);
-        resp.render('details', product);
+        const one = await productManager.readOne(id);
+        //return res.render("productDetail", { product: one });
+        if (req.session.user_id) {
+            return res.render("details", {
+                product: one,
+                user_id: req.session.user_id,
+            });
+        } else {
+            return res.render("details", {
+                product: one,
+                user_id: req.session.user_id,
+            });
+        }
     } catch (error) {
-        next(error);
+        return next(error);
     }
 });
-
 
 export default productsViewRouter;
