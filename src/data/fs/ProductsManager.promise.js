@@ -95,6 +95,7 @@ class ProductManager {
             throw error;
         }
     }
+    
     async update(id, data) {
         try {
             let all = await fs.promises.readFile(this.path, "utf-8");

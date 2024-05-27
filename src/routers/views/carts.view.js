@@ -3,19 +3,6 @@ import cartsManager from "../../data/mongo/managers/CartManager.mongo.js";
 
 const cartsViewRouter = Router();
 
-cartsViewRouter.get("/", async (req, res, next) => {
-    try {
-        const { user_id } = req.session;
-        const carts = await cartsManager.readCart(user_id);
-        if (req.session.user_id) {
-            return res.render("cart", { cart: carts, user_id: req.session.user_id });
-        } else {
-            return res.render("cart", { cart: carts, user_id: req.session.user_id });
-        }
-    } catch (error) {
-        return next(error);
-    }
-});
 cartsViewRouter.post("/", async (req, res, next) => {
     try {
         const { product } = req.body;
@@ -27,6 +14,21 @@ cartsViewRouter.post("/", async (req, res, next) => {
             },
             body: JSON.stringify({ product_id: product, user_id: user_id }),
         });
+        const carts = await cartsManager.readCart(user_id);
+        //return res.render("cart", { cart: carts });
+        if (req.session.user_id) {
+            return res.render("cart", { cart: carts, user_id: req.session.user_id });
+        } else {
+            return res.render("cart", { cart: carts, user_id: req.session.user_id });
+        }
+    } catch (error) {
+        return next(error);
+    }
+});
+
+cartsViewRouter.get("/", async (req, res, next) => {
+    try {
+        const { user_id } = req.session;
         const carts = await cartsManager.readCart(user_id);
         if (req.session.user_id) {
             return res.render("cart", { cart: carts, user_id: req.session.user_id });

@@ -93,6 +93,22 @@ class UserManager {
             console.log(error);
         }
     }
+    async readByEmail(email) {
+        try {
+            let one = await fs.promises.readFile(this.path, "utf-8");
+            one = JSON.parse(one);
+            let user = one.find((each) => {each.email === email}); // buscamos  por el ID que nos mandan.
+            if (!user) {
+                return null;
+            }
+            else{
+                console.log(user); // Funcional para mostrar en TEST
+                return user;
+            }
+        } catch (error) {
+            throw error;
+        }
+    }
     async update(id, data) {
         try {
             let all = await fs.promises.readFile(this.path, "utf-8");

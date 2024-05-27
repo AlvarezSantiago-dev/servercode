@@ -81,6 +81,15 @@ class Manager {
             throw error
         }
     }
+    async destroyAll(filter) {
+        try {
+            const all = await this.Model.deleteMany(filter).lean();
+            return all;
+        } catch (error) {
+            throw error;
+        }
+    }
 };
+
 
 export default Manager;

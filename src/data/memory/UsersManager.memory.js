@@ -1,5 +1,6 @@
 import crypto from "crypto"
 
+
 class UsersManager {
     static #users = [];
     create(data) {
@@ -51,6 +52,19 @@ class UsersManager {
             }
         } catch (error) {
             console.log(error);
+        }
+    }
+    async readByEmail(email) {
+        try {
+            let user = UsersManager.#users.find((item)=> item.email === email);
+            if (!user) {
+                throw new Error(`El usuario con la ID "${id}" no existe`);
+            }
+            else {
+                return user;
+            }
+        } catch (error) {
+            throw error;
         }
     }
 //CORREGIR Y HACER FUNCIONAL

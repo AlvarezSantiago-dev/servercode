@@ -1,19 +1,20 @@
     <form method="POST" action="/carts">
         <div class="d-flex justify-content-center ">
-        {{#if _id}}
+        {{#if product._id}}
         <div class="card p-3" style="width: 30rem; ">
-        <img src={{photo}} class="card-img-top" alt="...">
+        <img src={{product.photo}} class="card-img-top" alt="...">
         <div class="card-body bg-secondary m-2">
-            <h5 class="card-title">{{tittle}}</h5>
-            <span class="text-white">Category: {{category}}</span>
+            <h5 class="card-title">{{product.tittle}}</h5>
+            <span class="text-white">Category: {{product.category}}</span>
             <br>
-            <p class="text-danger p-1"> Stock: {{stock}}</p>
+            <p class="text-danger p-1"> Stock: {{product.stock}}</p>
 
             <p class="card-text m-1">Some quick example text to build on the card title and make up the bulk of the
                 card's
                 content.</p>
-            <span class="float-end text-white"> Price: ${{price}}</span>
-            <input type="hidden" value="{{_id}}" name="product">
+                
+            <span class="float-end text-white"> Price: ${{product.price}}</span>
+            <input type="hidden" value="{{product._id}}" name="product">
             <button class="btn btn-success m-2 " type="submit">ADD TO CART</button>
         </div>
         {{else}}
@@ -22,5 +23,41 @@
         <a href="/products/paginate?limit=10&page=1" class="btn btn-danger m-1">Volver</a>
     </div>
     </form>
+    <script>
+        async function addToCart(pid) {
+            const user_id = document.getElementById('user-id').value;
+            if (!user_id) {
+                console.error('User ID is not available');
+                return;
+            }
 
-    
+            try {
+                const data = {
+                    user_id: user_id,
+                    product_id: pid,
+                    quantity: 1
+                };
+
+                const url = "http://localhost:8080/api/carts/";
+                const opts = {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                };
+
+                let response = await fetch(url, opts);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                response = await response.json();
+                console.log(response);
+
+                // Aquí puedes agregar más lógica para actualizar la interfaz de usuario o notificar al usuario
+                alert('Producto agregado al carrito');
+            } catch (error) {
+                console.error('Error adding product to cart:', error);
+                alert('Hubo un error al agregar el producto al carrito');
+            }
+        }
+    </script>
+
