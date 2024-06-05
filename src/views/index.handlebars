@@ -1,3 +1,4 @@
+{{#if user_id}}
 <h1 class="text-center">Products</h1>
 
 <div class="d-flex justify-content-center">
@@ -31,4 +32,6 @@
 </div>
 </div>
     {{/each}}
-    
+{{else}}
+<h2 class="text-center">Inicia sesion para poder ver nuestro catalogo de productos</h2>
+{{/if}}

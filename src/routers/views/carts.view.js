@@ -19,7 +19,7 @@ cartsViewRouter.post("/", async (req, res, next) => {
         if (req.session.user_id) {
             return res.render("cart", { cart: carts, user_id: req.session.user_id });
         } else {
-            return res.render("cart", { cart: carts, user_id: req.session.user_id });
+            return res.render("login");
         }
     } catch (error) {
         return next(error);
