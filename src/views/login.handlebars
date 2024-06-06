@@ -45,7 +45,8 @@ document.querySelector("#login").addEventListener("click", async () => {
     let response = await fetch("http://localhost:8080/api/sessions/login", opts)
     response = await response.json();
     if(response.statusCode === 200 ){
-        return location.replace("http://localhost:8080/")
+       
+        return  alert("logged"), location.replace("http://localhost:8080/products/paginate?limit=10&page=1")
     }
     else {
         alert(response.message)

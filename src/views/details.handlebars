@@ -15,7 +15,7 @@
                 
             <span class="float-end text-white"> Price: ${{product.price}}</span>
             <input type="hidden" value="{{product._id}}" name="product">
-            <button class="btn btn-success m-2 " type="submit">ADD TO CART</button>
+            <button class="btn btn-success m-2 " id="addcart" type="submit">ADD TO CART</button>
         </div>
         {{else}}
                 <h1>PRODUCT NOT FOUND</h1>
@@ -25,13 +25,14 @@
     </form>
     <script>
         async function addToCart(pid) {
-            const user_id = document.getElementById('user-id').value;
-            if (!user_id) {
+            
+
+            try {
+                const user_id = document.getElementById('addcart').value;
+                if (!user_id) {
                 console.error('User ID is not available');
                 return;
             }
-
-            try {
                 const data = {
                     user_id: user_id,
                     product_id: pid,

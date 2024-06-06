@@ -52,18 +52,24 @@ Para la construccion y el test de ServerCoder, utilizamos algunas herramientas a
 | MongoDbCompas | 
 | Postman |
 
-## Mini guia
-Para probar el funcionamiento debemos clonar el reposotorio.
-Luego pararnos en la consola en la carpeta main del archivo. (cd servercode) y ejecutar el cmd (npm run dev).
-Para realizar las solicitudes de tipo ` GET PUT POST DELETE ` utilizamos Postman.
-En postman colocamos la ruta `http://localhost:8080/api/(carts,users or products)`. En el codigo, se encuentran ubicados estos endpoints disponibles de la api mas detallados en `src/routers/api`.
-Luego en postman simplemente realizamos la peticion que necesitamos y listo.
+## SPRINT 7
 
-Para las vistas solo por el momento estan configuradas algunas, para visualizarlas el servidor debe estar iniciado.
 Algunas de las vistas son: 
-
+View index.
 - http://localhost:8080/
-- http://localhost:8080/products (tocando en detalles nos lleva a la ruta de abajo.)
-- http://localhost:8080/products/:id 
-- http://localhost:8080/register
-- http://localhost:8080/users/:id (deberian tomar un id de un user.)
+- (http://localhost:8080/products/paginate?limit=10&page=1) 
+
+Api view loguear con google 
+- http://localhost:8080/api/sessions/google
+Users.
+- http://localhost:8080/users/login
+- http://localhost:8080/users/register
+
+Se debe iniciar sesion para poder visualizar las proximas vistas. (Cambio en la barra de navegacion.)
+- http://localhost:8080/products/:id
+Ver el perfil de la session iniciada. (En caso de que no este iniciada muestra los usuarios.)
+- http://localhost:8080/users
+Ver el carrito (personal)
+- http://localhost:8080/carts
+
+
