@@ -1,43 +1,104 @@
-import { Router } from "express";
-import cartsManger from "../../data/mongo/managers/CartManager.mongo.js";
 
-const cartsRouter = Router();
-//readOne
-cartsRouter.get("/", async (req, resp) => {
+import cartsManger from "../../data/mongo/managers/CartManager.mongo.js";
+import passportCb from "../../middlewares/passportCb.mid.js";
+import CustomRouter from "../CustomRouter.js";
+import { Types } from "mongoose";
+
+
+class CartsRouter extends CustomRouter {
+    init() {
+        this.create("/", ["ADMIN", "USER"], passportCb("jwt"), create);
+        this.read("/", ["ADMIN", "USER"], passportCb("jwt"), readCart);
+        this.read("/:id", ["ADMIN", "USER"], readOne);
+        this.update("/:id", ["ADMIN", "USER"], update);
+        this.destroy("/:_id", ["ADMIN", "USER"], destroy);
+        this.destroy("/all", ["ADMIN", "USER"], destroyAll);
+
+        this.read("/tikets/:id",["USER","ADMIN"],passportCb("jwt"), async (req, res, next) => {
+            try {
+               const { id } = req.params;
+               
+                const ticket = await cartsManger.aggregate([
+                    {
+                        $match: {
+                            user_id: new Types.ObjectId(id),},
+                    },
+                    {
+                        $lookup: {
+                            foreignField: "_id",
+                            from: "products",
+                            localField: "product_id",
+                            as: "product_id",
+                        },
+                    },
+                    {
+                        $replaceRoot: {
+                            newRoot: {
+                                $mergeObjects: [{ $arrayElemAt: ["$product_id", 0] }, "$$ROOT"],
+                            },
+                        },
+                    },
+                    {
+                        $set: {
+                            subTotal: { $multiply: ["$quantity", "$price"] },
+                        },
+                    },
+                    { $group: { _id: "user_id", total: { $sum: "$subTotal" } } },
+                    {
+                        $project: { _id: 0, user_id: id, total: "$total", date: new Date() },
+                    },
+                    //{ $merge: { into: "tickets" } },
+                ]);
+                return res.exito200(ticket)
+            } catch (error) {
+                return next(error);
+            }
+        });
+    }
+}
+
+const cartsRouter = new CartsRouter()
+
+//funcional para las vistas
+async function create(req, res, next) {
     try {
-        const allproducts = await cartsManger.read();
+        const data = req.body;
+        // si quiero q funcione el metodo en postman tengo q comentar las 2 lineas de abajo.
+        const { user_id } = req.user
+        data.user_id = user_id; // Obtiene el user_id de la cok
+        let cart = await cartsManger.create(data)
+        return res.exito201message(cart, "Producto agregado al carrito :c")
+    }
+    catch (error) {
+        return next(error);
+    }
+}
+//read
+async function readCart(req, resp, next) {
+    try {
+
+        const { user_id } = req.query
+        const allproducts = await cartsManger.readCart(user_id);
+        //const { user_id } = req.user
         if (allproducts.length > 0) {
-            return resp.json({
-                statusCode: 200,
-                response: allproducts
-            });
-        } else {
-            const error = new Error("NOT FOUND");
-            error.statusCode = 404
-            throw error;
+            return resp.exito200(allproducts)
+        }
+        else {
+            return resp.error404();
         }
     } catch (error) {
-        console.log(error);
-        resp.status(404).json({
-            response: null,
-            menssage: "No se encuentra ningun carrito"
-        })
+        return next(error)
     }
-});
-
-cartsRouter.get("/:id", async (req, resp) => {
+};
+//readOne
+async function readOne(req, resp, next) {
     try {
         const { id } = req.params
         const one = await cartsManger.readOne(id);
         if (one) {
-            return resp.status(200).json({
-                response: one,
-                success: true
-            })
+            return resp.exito200(one)
         } else {
-            const error = new Error("NOT FOUND");
-            error.statusCode = 404
-            throw error;
+            return resp.error404();
         }
     } catch (error) {
         console.log(error);
@@ -46,63 +107,16 @@ cartsRouter.get("/:id", async (req, resp) => {
             menssage: "No se encuentra el producto"
         })
     }
-});
-// read
-cartsRouter.get("/", async (req, resp) => {
-    try {
-        const { user_id } = req.query;
-        const allproducts = await cartsManger.readCart(user_id);
-        if (allproducts.length > 0) {
-            return resp.json({
-                statusCode: 200,
-                response: allproducts
-            });
-        } else {
-            const error = new Error("NOT FOUND");
-            error.statusCode = 404
-            throw error;
-        }
-    } catch (error) {
-        console.log(error);
-        resp.status(404).json({
-            response: null,
-            message: "No se encuentra ningun carrito"
-        })
-    }
-});
+};
 //create 
-cartsRouter.post("/", create);
-cartsRouter.put("/:id", update);
-cartsRouter.delete("/:id", destroy)
-cartsRouter.delete("/all", destroyAll);
-
-async function create(req, res, next) {
-    try {
-        const data = req.body;
-        const newProduct = {
-            product_id: data.product_id,
-            user_id: data.user_id,
-            quantity: 1
-        }
-        const one = await cartsManger.create(newProduct);
-        return res.json({
-            statusCode: 201,
-            response: one,
-            message: "CREATED ID. " + one.id,
-        });
-    } catch (error) {
-        return next(error);
-    }
-}
 async function update(req, res, next) {
     try {
         const { id } = req.params;
         const data = req.body;
+        //data.user_id = req.session.user_id
+
         const one = await cartsManger.update(id, data);
-        return res.json({
-            statusCode: 200,
-            message: one,
-        });
+        return res.exito200(one);
     } catch (error) {
         return next(error);
     }
@@ -110,34 +124,28 @@ async function update(req, res, next) {
 
 async function destroy(req, resp, next) {
     try {
-        const { id } = req.params;
-        const one = await cartsManger.destroy(id)
+        const { _id } = req.params;
+        const one = await cartsManger.destroy(_id)
         if (!one) {
-            const error = new Error("NOT FOUND");
-            error.statusCode = 404
-            throw error;
+            return resp.error404();
         } else {
-            return resp.json({
-                statusCode: 200,
-                response: one
-            })
+            return resp.exito200message(one, "eliminated")
         }
     } catch (error) {
         return next(error)
     }
 }
+
 async function destroyAll(req, res, next) {
     try {
         //console.log("hola")
         const { user_id } = req.body;
         //console.log(user_id)
         const all = await cartsManger.destroyAll({ user_id: user_id });
-        return res.json({
-            statusCode: 200,
-            response: all,
-        });
+        return res.exito200(all);
     } catch (error) {
         return next(error);
     }
 }
-export default cartsRouter;
+
+export default cartsRouter.getRouter()

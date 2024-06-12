@@ -46,26 +46,14 @@ socketServer.on("connection", socketCb);
 nodeServer.listen(port, ready);
 // Iniciar el servidor.
 //const FileSession = fileStore(session)
-server.use(
-    session({
-    /*store: new FileSession({
-        path:"./src/data/fs/files/sessions",
-        ttl: 60 * 60,
-    }),*/
-    store: new MongoStore({mongoUrl: process.env.MONGO_URI,ttl: 60 * 60,}),
-    secret: process.env.SECRET_SESSION,
-    resave: true,
-    saveUninitialized: true,
-    //cookie: {maxAge: 60 * 60 * 1000}
-}))
-server.use(cookieParser(process.env.SECRET_COOKIE)); // metodos para gestionar cookies 
+server.use(cookieParser(process.env.SECRET_JWT)); // metodos para gestionar cookies 
 server.use(express.json()); //permite leer req.params y req.query
 server.use(express.urlencoded({ extended: true }));
 server.use(express.static(__dirname + "/public"));
 server.use(morgan("dev"));
 
 //template engine
-server.engine("handlebars", engine());
+server.engine("handlebars", engine())
 server.set("view engine", "handlebars");
 server.set("views", __dirname + "/views");
 

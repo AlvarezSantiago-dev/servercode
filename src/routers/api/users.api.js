@@ -1,10 +1,40 @@
-import { Router } from "express";
+
 //import userManager from "../../data/fs/UsersManager.promises.js";
 import userManager from "../../data/mongo/Managers/UserManager.mongo.js";
-// ENRRUTADOR RECURSO USUARIOS
-const usersRouter = Router();
+import CustomRouter from "../CustomRouter.js";
 
-usersRouter.get("/paginate", async (req,resp)=>{
+// ENRRUTADOR RECURSO USUARIOS
+class UsersRouter extends CustomRouter {
+    init() {
+        this.read("/paginate", ["PUBLIC"], paginate)
+
+        this.create("/",["ADMIN"], create);
+        this.update("/:id",["ADMIN"], update);
+        this.destroy("/:id",["ADMIN"], destroy);
+
+        this.read("/",["PUBLIC"], read);
+        this.read("/:id",["PUBLIC"], readOne)
+    }
+}
+
+const usersRouter = new UsersRouter()
+
+
+
+async function readOne(req, resp, next) {
+    try {
+        const { id } = req.params
+        const one = await userManager.readOne(id);
+        if (one) {
+            return resp.exito200(one)
+        } else {
+            return resp.error404();
+        }
+    } catch (error) {
+        return next(error)
+    }
+}
+async function paginate(req, resp, next) {
     try {
         const filter = {}; // Puedes definir aquí tus filtros de ser necesario
         const opts = {};
@@ -12,8 +42,8 @@ usersRouter.get("/paginate", async (req,resp)=>{
         return resp.json({
             statusCode: 200,
             response: all.docs,
-            info :{
-                page:all.page,
+            info: {
+                page: all.page,
                 totalPages: all.totalPages,
                 limit: all.limit,
                 prevPage: all.prevPage,
@@ -21,114 +51,58 @@ usersRouter.get("/paginate", async (req,resp)=>{
             }
         })
     } catch (error) {
-        console.log(error);
-        resp.status(404).json({
-            response: null,
-            menssage: "No se encuentra el usuario"
-        })
+        return next(error);
     }
-})
-// filtrado por role.
-usersRouter.get("/:id", async (req, resp) => {
+}
+async function read(req, resp, next) {
     try {
-        const { id } = req.params
-        const one = await userManager.readOne(id);
-        if (one) {
-            return resp.status(200).json({
-                response: one,
-                success: true
-            })
-        } else {
-            const error = new Error("NOT FOUND");
-            error.statusCode = 404
-            throw error;
-        }
-    } catch (error) {
-        console.log(error);
-        resp.status(404).json({
-            response: null,
-            menssage: "No se encuentra el usuario"
-        })
-    }
-})
-
-usersRouter.get("/", async (req, resp) => {
-    try {
-        const { role } = req.query
-        const all = await userManager.read(role)
+        //const { role } = req.query
+        const all = await userManager.read()
         if (all) {
             return resp.status(200).json({
                 responese: all,
                 success: true,
-
             })
         } else {
-            const error = new Error("NOT FOUND");
-            error.statusCode = 404
-            throw error;
+            return resp.error404();
         }
-    } catch (error) {
-        console.log(error);
-        resp.status(404).json({
-            response: null,
-            menssage: "No se encuentra el rol "
-        })
-    }
-})
-
-// trer un solo user.
-
-usersRouter.post("/", create); 
-usersRouter.put("/:id", update);
-usersRouter.delete("/:id", destroy);
-
-async function create (req, resp, next) {
-    try {
-        const data = req.body; //Guardo en una variable el objeto body : Datos q me envia el usuario.
-        let product = await userManager.create(data);
-        return resp.json({
-            statusCode: 201,
-            menssage: 'Product created, id:' + product.id,
-        })
-    } catch (error) {
-        return next(error)
-    }
-};
-// actualizar usuario
-async function update(req, resp, next ){
-    try {
-        const {id} = req.params;
-        const data = req.body;
-        const product = await userManager.update(id, data);
-        return resp.json({
-            statusCode: 200,
-            response: product
-        })
     } catch (error) {
         return next(error)
     }
 }
-// elminar usuario
-async function destroy(req, resp, next)  {
+async function create(req, resp, next) {
     try {
-        const {id} = req.params;
+        const data = req.body; //Guardo en una variable el objeto body : Datos q me envia el usuario.
+        let product = await userManager.create(data);
+        return resp.exito201('Product created, id:' + product.id)
+    } catch (error) {
+        return next(error)
+    }
+};
+async function update(req, resp, next) {
+    try {
+        const { id } = req.params;
+        const data = req.body;
+        const product = await userManager.update(id, data);
+        return resp.exito200(product);
+    } catch (error) {
+        return next(error)
+    }
+}
+async function destroy(req, resp, next) {
+    try {
+        const { id } = req.params;
         const one = await userManager.destroy(id)
-        if  (!one){
-            return resp.json({
-                statusCode: 404,
-                response: "User not found",
-            })
+        if (!one) {
+            return resp.error404();
         }
         else {
-            return resp.json({
-                statusCode: 200,
-                response: one
-            })
+            return resp.exito200(one)
         }
-        
+
     } catch (error) {
         return next(error)
     }
 }
 // FIN ENDPOINTS
-export default usersRouter;
+export default usersRouter.getRouter();

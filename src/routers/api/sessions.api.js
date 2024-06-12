@@ -1,120 +1,119 @@
-import { Router, response } from "express";
-import userManager from "../../data/mongo/Managers/UserManager.mongo.js";
-import isValidEmail from "../../middlewares/isValidEmail.mid.js";
-import isValidData from "../../middlewares/isValidData.mid.js";
-import isValidUser from "../../middlewares/isValidUser.mid.js";
-import isValidPassword from "../../middlewares/isValidPassword.mid.js";
-import createHashPassword from "../../middlewares/createHashPassword.mid.js";
+;
+import isAuth from "../../middlewares/isAuth.mid.js";
 import passport from "../../middlewares/passport.mid.js";
+import passportCb from "../../middlewares/passportCb.mid.js";
+import CustomRouter from "../CustomRouter.js";
 
-
-
-
-const sessionRouter = Router();
-
-sessionRouter.post("/register", 
-//isValidData, 
-//isValidEmail,
-//reateHashPassword,
-passport.authenticate("register",{session:false}),
-async (req, resp, next) => {
-    try {
-        return resp.json({
-            statusCode: 201,
-            message: "User registered successfully",
-        })
-    } catch (error) {
-        return next(error)
-    }
-})
-sessionRouter.post("/login", 
-//isValidUser, 
-//isValidPassword, 
-passport.authenticate("login", {session:false}),
-async (req, resp, next) => {
-    try {
-        return resp.json({
-            statusCode: 200,
-            message: "Logged in!",
-
-        })
-    } catch (error) {
-        return next(error)
-    }
-})
-
-sessionRouter.get("/online", async (req, res, next) => {
-    try {
-        if (req.session.online) {
-            return res.json({
-                statusCode: 200,
-                message: "Is online!",
-                user_id: req.session.user_id,
-            });
-        }
-        return res.json({
-            statusCode: 401,
-            message: "Bad auth!",
-        });
-    } catch (error) {
-        return next(error);
-    }
-});
-
-sessionRouter.post("/", async (req, res, next) => {
-    try {
-        if (req.session.online) {
-            // El usuario ha iniciado sesión y req.session.online está definido
-            return res.json({
-                statusCode: 200,
-                message: "Is Online!",
-                user_id: req.session.user_id,
-                photo: req.session.photo,
-                role: req.session.role,
-                email: req.session.email
-            });
-        } else {
-            // El usuario no ha iniciado sesión o req.session.online no está definido
-            return res.json({
-                statusCode: 401,
-                message: "Not Online!",
-            });
-        }
-    } catch (error) {
-        return next(error);
-    }
-});
-
-sessionRouter.post("/signout", async (req, resp, next) => {
-    try {
-        if (req.session.email) {
-            req.session.destroy();
-            return resp.json({
-                statusCode: 200,
-                message: "Logged out!",
+class SessionRouter extends CustomRouter {
+    init() {
+        this.create("/register",
+            //isValidData, 
+            //isValidEmail,
+            //reateHashPassword,
+            ["PUBLIC"],
+            passportCb("register"),
+            async (req, resp, next) => {
+                try {
+                    return resp.exito201("User registered successfully")
+                } catch (error) {
+                    return next(error)
+                }
             })
-        }
-        else {
-            const error = new Error("Invalid action")
-            error.statusCode = 401
-            throw error
-        }
-    } catch (error) {
-        return next(error)
+        this.create("/login",
+            //isValidUser, 
+            //isValidPassword, 
+            ["PUBLIC"],
+            passportCb("login"),
+            async (req, resp, next) => {
+                try {
+                    return resp.cookie("token", req.user.token, { signedCookie: true }).json({
+                        statusCode: 200,
+                        message: "Logged in!",
+                        //token: req.user.token
+
+                    })
+                } catch (error) {
+                    return next(error)
+                }
+            })
+
+        this.read("/",
+            ["USER", "ADMIN"],
+            passportCb("jwt"),
+            async (req, resp, next) => {
+                // verificar un token.
+                try {
+                    if (req.user.online) {
+                        return resp.json({
+                            statusCode: 200,
+                            message: "Is Online",
+                            user_id: req.user.user_id,
+                            email: req.user.email,
+                            role: req.user.role,
+                            photo: req.user.photo
+                        });
+                    } else {
+                        return resp.error400("Bad bad");
+                    }
+                } catch (error) {
+                    return next(error);
+                }
+            });
+        /*
+                this.create("/", async (req, res, next) => {
+                    try {
+                        if (req.session.online) {
+                            // El usuario ha iniciado sesión y req.session.online está definido
+                            return res.json({
+                                statusCode: 200,
+                                message: "Is Online!",
+                                user_id: req.session.user_id,
+                                photo: req.session.photo,
+                                role: req.session.role,
+                                email: req.session.email
+                            });
+                        } else {
+                            // El usuario no ha iniciado sesión o req.session.online no está definido
+                            return res.json({
+                                statusCode: 401,
+                                message: "Not Online!",
+                            });
+                        }
+                    } catch (error) {
+                        return next(error);
+                    }
+                });
+        */
+        this.create("/signout",
+            ["USER", "ADMIN"],
+            async (req, resp, next) => {
+                try {
+                    if (req.cookies) {
+                        return resp.clearCookie("token").exito200("Signed out!")
+                    }
+                    return resp.error401message("Invalid credentials from signout")
+                } catch (error) {
+                    return next(error);
+                }
+            })
+
+        this.read("/google", 
+            ["PUBLIC"],
+            passport.authenticate("google", { scope: ["email", "profile"] }))
+
+        this.read("/google/callback",
+            ["PUBLIC"],
+            (req, resp, next) => {
+                try {
+                    return resp.exito200("Logged with google")
+                } catch (error) {
+                    return next(error)
+                }
+            })
     }
-})
+}
 
-sessionRouter.get("/google", passport.authenticate("google", { scope: ["email", "profile"]}))
+const sessionRouter = new SessionRouter()
 
-sessionRouter.get("/google/callback", (req, resp, next) => {
-    try {
-        return resp.json({
-            statusCode: 200,
-            message: "Logged in with google!"
-        })
-    } catch (error) {
-        return next(error)
-    }
-})
+export default sessionRouter.getRouter()
 
-export default sessionRouter
