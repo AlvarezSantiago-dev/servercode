@@ -1,45 +1,31 @@
-import { Router } from "express";
+
 import cartsManager from "../../data/mongo/managers/CartManager.mongo.js";
+import passportCb from "../../middlewares/passportCb.mid.js";
+import CustomRouter from "../CustomRouter.js";
 
-const cartsViewRouter = Router();
 
-cartsViewRouter.post("/", async (req, res, next) => {
-    try {
-        const { product } = req.body;
-        const user_id = req.session.user_id;
-        const result = await fetch("http:/localhost:8080/api/carts/", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ product_id: product, user_id: user_id }),
+class CartsViewRouter extends CustomRouter {
+    init(){
+        this.read("/", ["USER","ADMIN"], passportCb("jwt"),
+            async (req, res, next) => {
+            try {
+                let cart = await cartsManager.readCart(req.user.user_id);
+                if (req.user.online) {
+                    return res.render("cart", { cart: cart, user_id: req.user.user_id });
+                } 
+            } catch (error) {
+                return next(error);
+            }
         });
-        const carts = await cartsManager.readCart(user_id);
-        //return res.render("cart", { cart: carts });
-        if (req.session.user_id) {
-            return res.render("cart", { cart: carts, user_id: req.session.user_id });
-        } else {
-            return res.render("login");
-        }
-    } catch (error) {
-        return next(error);
+        
     }
-});
+}
+const cartsViewRouter = new CartsViewRouter();
 
-cartsViewRouter.get("/", async (req, res, next) => {
-    try {
-        const { user_id } = req.session;
-        const carts = await cartsManager.readCart(user_id);
-        if (req.session.user_id) {
-            return res.render("cart", { cart: carts, user_id: req.session.user_id });
-        } else {
-            return res.render("cart", { cart: carts, user_id: req.session.user_id });
-        }
-    } catch (error) {
-        return next(error);
-    }
-});
 
+
+
+/*
 cartsViewRouter.delete("/all", async (req, res, next) => {
     try {
         const user_id = req.session.user_id;
@@ -51,10 +37,12 @@ cartsViewRouter.delete("/all", async (req, res, next) => {
             body: JSON.stringify({ user_id: user_id }),
         });
         return res.json({
-            statusCode: 200
+            statusCode: 200,
+            message
         })
     } catch (error) {
         return next(error);
     }
 });
-export default cartsViewRouter;
+*/
+export default cartsViewRouter.getRouter();

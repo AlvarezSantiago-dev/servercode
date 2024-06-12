@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <meta name="user_id" content="{{user_id}}">
+
     <title>{{title}}</title>
 
 </head>
@@ -18,29 +18,13 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse d-flex justify-content-center" id="navbarNavAltMarkup">
-                <div class="navbar-nav">
-                    {{#if user_id}}
-                    <div class="navbar-nav">
-                        <a class="nav-link active" aria-current="page" href="/products/paginate?limit=10&page=1">Home</a>
-                        <a class="nav-link active" href="/users">Perfil</a>
-                        <a class="nav-link active" href="/carts">Carrito</a>
-                        <a class="nav-link active signout" href="#">Cerrar session</a>
-                    </div>
-                {{else}}
-                <div class="navbar-nav">
-                    <a class="nav-link active" aria-current="page" href="/products/paginate?limit=10&page=1">Home</a>
-                    <a class="nav-link active" href="/users/register">Register</a>
-                    <a class="nav-link active" href="/users/login">Login</a>
-
+                <div class="navbar-nav" id="navbar-content">
+                    <!-- El contenido de la barra de navegación se actualizará aquí -->
                 </div>
-                {{/if}}
-
             </div>
         </div>
     </nav>
 </header>
-
-
 
 <body>
     {{{body}}}
@@ -48,23 +32,46 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
     <script>
+document.addEventListener("DOMContentLoaded", async () => {
+    const navbarContent = document.getElementById("navbar-content");
+
+    // Cambiar la solicitud de verificación de sesión a GET
+    const response = await fetch("http://localhost:8080/api/sessions");
+    const user = await response.json();
+    console.log(user);
+
+    if (user.statusCode === 200) {
+        navbarContent.innerHTML = `
+            <a class="nav-link active" aria-current="page" href="/products/paginate?page=1&limit=10">Home</a>
+            <a class="nav-link active" href="/users">Perfil</a>
+            <a class="nav-link active" href="/carts">Carrito</a>
+            <a class="nav-link active signout" href="#">Cerrar sesión</a>
+        `;
         document.querySelectorAll(".signout").forEach(element => {
             element.onclick = async () => {
-                const opts = {
-                    method: "POST",
+                // Cambiar la solicitud de cierre de sesión a POST para la ruta /signout
+                let response = await fetch("http://localhost:8080/api/sessions/signout", {
+                    method: 'POST',
                     headers: {
-                        "Content-Type": "application/json"
+                        'Content-Type': 'application/json'
                     }
-                };
-                let response = await fetch("/api/sessions/signout", opts);
+                });
                 response = await response.json();
+                console.log(response);
                 if (response.statusCode === 200) {
-                    location.replace("http://localhost:8080/products/paginate?limit=10&page=1");
+                    location.replace("/products/paginate?limit=10&page=1");
                 }
             };
         });
 
-
+    } else {
+        navbarContent.innerHTML = `
+            <a class="nav-link active" aria-current="page" href="/products/paginate?page=1&limit=10">Home</a>
+            <a class="nav-link active" href="/users/register">Register</a>
+            <a class="nav-link active" href="/users/login">Login</a>
+        `;
+    }
+});
     </script>
 </body>
 

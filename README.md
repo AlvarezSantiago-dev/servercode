@@ -52,7 +52,12 @@ Para la construccion y el test de ServerCoder, utilizamos algunas herramientas a
 | MongoDbCompas | 
 | Postman |
 
-## SPRINT 7
+## SPRINT 8
+- Se configuro al archivo CustomRouter como enrutador principal de las vistas y de la API. (TODAS FUNCIONALES)
+Adjunto fotos en la pull requests.
+
+- Se dejo de usar sessions y se reemplazo por json-webtoken.
+- Se agregaron respuestas determinadas para todas las rutas.
 
 Algunas de las vistas son: 
 View index.
@@ -60,16 +65,19 @@ View index.
 - (http://localhost:8080/products/paginate?limit=10&page=1) 
 
 Api view loguear con google 
-- http://localhost:8080/api/sessions/google
+- http://localhost:8080/api/sessions/google 
 Users.
-- http://localhost:8080/users/login
+- http://localhost:8080/users/login 
 - http://localhost:8080/users/register
 
-Se debe iniciar sesion para poder visualizar las proximas vistas. (Cambio en la barra de navegacion.)
-- http://localhost:8080/products/:id
-Ver el perfil de la session iniciada. (En caso de que no este iniciada muestra los usuarios.)
+Se debe iniciar sesion para poder visualizar las proximas vistas. 
+(Cambio en la barra de navegacion.)
+- http://localhost:8080/products/:id (detalles del producto) - (si o si iniciar sesion)
+Ver el perfil de la session iniciada. (si o si iniciar sesion)
 - http://localhost:8080/users
 Ver el carrito (personal)
-- http://localhost:8080/carts
+- http://localhost:8080/carts (si o si iniciar sesion.)
+boton funcional (eliminar.)
+
 
 

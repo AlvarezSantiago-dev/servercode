@@ -1,6 +1,5 @@
-{{#if user_id}}
-<h1 class="text-center">Products</h1>
-
+<h1 class="text-center m2">Products</h1>
+<h2 class="text-center m2">Debes iniciar sesion para ver los detalles de nuestros productos</h2>
 <div class="d-flex justify-content-center">
     <div aria-label="Page navigation example">
         <ul class="pagination d-flex justify-content-center align-items-center pt-5">
@@ -27,11 +26,12 @@
         <div class="card-body bg-secondary">
             <h5 class="card-title" style="width: 16rem;">{{tittle}}</h5>
             <div class="card d-flex ">
-                <a href="/products/{{_id}}" class="btn btn-danger">Detalles</a>
+                <a href="http://localhost:8080/products/{{_id}}" class="btn btn-danger">Detalles</a>
             </div>
 </div>
 </div>
     {{/each}}
-{{else}}
-<h2 class="text-center">Inicia sesion para poder ver nuestro catalogo de productos</h2>
-{{/if}}
+
+<script>
+
+</script>

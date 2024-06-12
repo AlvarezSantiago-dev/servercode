@@ -33,7 +33,7 @@ class Manager {
 
     async readCart(user_id) {
         try {
-            const all = await this.Model.find({ user_id: user_id }).lean();
+            const all = await this.Model.find({ user_id: user_id }).lean()
             return all;
         } catch (error) {
             throw error;
@@ -67,7 +67,7 @@ class Manager {
     }
     async update(id, data) {
         try {
-            const one = await this.Model.findByIdAndUpdate(id, data, { new: true })
+            const one = await this.Model.findByIdAndUpdate(id, data).lean();
             return one;
         } catch (error) {
             throw error
@@ -75,7 +75,7 @@ class Manager {
     }
     async destroy(id) {
         try {
-            const elimined = await this.Model.findByIdAndDelete(id).lean();
+            const elimined = await this.Model.findByIdAndDelete(id)
             return elimined;
         } catch (error) {
             throw error
@@ -89,6 +89,20 @@ class Manager {
             throw error;
         }
     }
+    async aggregate(obj) {
+        try {
+            const result = await this.Model.aggregate(obj);
+            return result;
+        } catch (error) {
+            throw error;
+        }
+    }
+    //no implementado.
+    async destroyAll(user_id) {
+        const all = await this.Model.deleteMany(user_id).lean();
+        return all;
+    }
+
 };
 
 
