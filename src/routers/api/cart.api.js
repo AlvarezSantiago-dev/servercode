@@ -67,7 +67,7 @@ async function create(req, res, next) {
         const { user_id } = req.user
         data.user_id = user_id; // Obtiene el user_id de la cok
         let cart = await cartsManger.create(data)
-        return res.exito201message(cart, "Producto agregado al carrito :c")
+        return res.exito201message(cart, "Producto agregado al carrito 😊")
     }
     catch (error) {
         return next(error);
