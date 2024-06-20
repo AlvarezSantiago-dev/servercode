@@ -14,46 +14,7 @@ class CartsRouter extends CustomRouter {
         this.destroy("/:_id", ["ADMIN", "USER"], destroy);
         this.destroy("/all", ["ADMIN", "USER"], destroyAll);
 
-        this.read("/tikets/:id",["USER","ADMIN"],passportCb("jwt"), async (req, res, next) => {
-            try {
-               const { id } = req.params;
-               
-                const ticket = await cartsManger.aggregate([
-                    {
-                        $match: {
-                            user_id: new Types.ObjectId(id),},
-                    },
-                    {
-                        $lookup: {
-                            foreignField: "_id",
-                            from: "products",
-                            localField: "product_id",
-                            as: "product_id",
-                        },
-                    },
-                    {
-                        $replaceRoot: {
-                            newRoot: {
-                                $mergeObjects: [{ $arrayElemAt: ["$product_id", 0] }, "$$ROOT"],
-                            },
-                        },
-                    },
-                    {
-                        $set: {
-                            subTotal: { $multiply: ["$quantity", "$price"] },
-                        },
-                    },
-                    { $group: { _id: "user_id", total: { $sum: "$subTotal" } } },
-                    {
-                        $project: { _id: 0, user_id: id, total: "$total", date: new Date() },
-                    },
-                    //{ $merge: { into: "tickets" } },
-                ]);
-                return res.exito200(ticket)
-            } catch (error) {
-                return next(error);
-            }
-        });
+        this.read("/tikets/:id", ["USER", "ADMIN"], passportCb("jwt"), viewTickets);
     }
 }
 
@@ -148,4 +109,45 @@ async function destroyAll(req, res, next) {
     }
 }
 
+async function viewTickets(req, resp, next) {
+    try {
+        const { id } = req.params;
+
+        const ticket = await cartsManger.aggregate([
+            {
+                $match: {
+                    user_id: new Types.ObjectId(id),
+                },
+            },
+            {
+                $lookup: {
+                    foreignField: "_id",
+                    from: "products",
+                    localField: "product_id",
+                    as: "product_id",
+                },
+            },
+            {
+                $replaceRoot: {
+                    newRoot: {
+                        $mergeObjects: [{ $arrayElemAt: ["$product_id", 0] }, "$$ROOT"],
+                    },
+                },
+            },
+            {
+                $set: {
+                    subTotal: { $multiply: ["$quantity", "$price"] },
+                },
+            },
+            { $group: { _id: "user_id", total: { $sum: "$subTotal" } } },
+            {
+                $project: { _id: 0, user_id: id, total: "$total", date: new Date() },
+            },
+            //{ $merge: { into: "tickets" } },
+        ]);
+        return res.exito200(ticket)
+    } catch (error) {
+        return next(error);
+    }
+}
 export default cartsRouter.getRouter()
