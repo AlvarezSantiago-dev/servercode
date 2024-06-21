@@ -52,6 +52,7 @@ Para la construccion y el test de ServerCoder, utilizamos algunas herramientas a
 | MongoDbCompas | 
 | Postman |
 
+
 ## SPRINT 8
 - Se configuro al archivo CustomRouter como enrutador principal de las vistas y de la API. (TODAS FUNCIONALES)
 Adjunto fotos en la pull requests.
