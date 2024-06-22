@@ -81,14 +81,6 @@ class Manager {
             throw error
         }
     }
-    async destroyAll(filter) {
-        try {
-            const all = await this.Model.deleteMany(filter).lean();
-            return all;
-        } catch (error) {
-            throw error;
-        }
-    }
     async aggregate(obj) {
         try {
             const result = await this.Model.aggregate(obj);
