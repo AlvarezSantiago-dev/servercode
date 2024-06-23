@@ -53,12 +53,18 @@ Para la construccion y el test de ServerCoder, utilizamos algunas herramientas a
 | Postman |
 
 
-## SPRINT 8
-- Se configuro al archivo CustomRouter como enrutador principal de las vistas y de la API. (TODAS FUNCIONALES)
-Adjunto fotos en la pull requests.
+## SPRINT 9
+- Se agregaron las capas de servicios con un service generico.
+carts.service
+products.service
+users.service
+NO se agrego sessions.service ( no encontre el sentido ).
 
-- Se dejo de usar sessions y se reemplazo por json-webtoken.
-- Se agregaron respuestas determinadas para todas las rutas.
+- Se agregaron todos los controllers correspondientes y cada ruta se comunica con un servicio correspondiente.
+carts.controller
+products.controller
+sessions.controller
+users.controller
 
 Algunas de las vistas son: 
 View index.
